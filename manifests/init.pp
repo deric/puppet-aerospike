@@ -23,6 +23,7 @@ class aerospike (
   $system_gid               = undef,
   $manage_service           = true,
   $restart_on_config_change = true,
+  $enable_logging           = true,
   $config_service           = {
     'paxos-single-replica-limit'    => 1,
     'pidfile'                       => '/var/run/aerospike/asd.pid',
