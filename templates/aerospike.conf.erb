@@ -9,6 +9,7 @@ service {
 <% end -%>
 }
 
+<% if scope.lookupvar('aerospike::enable_logging') -%>
 # logging context definition
 logging {
 <% scope.lookupvar('aerospike::config_logging').sort.each do |k,v| -%>
@@ -19,6 +20,7 @@ logging {
   }
 <% end -%>
 }
+<% end -%>
 
 # network context definition
 network {
