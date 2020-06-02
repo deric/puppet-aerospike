@@ -85,6 +85,7 @@ class aerospike (
   $tools_version          = undef,
   $tools_download_url     = undef,
   $tools_download_dir     = '/usr/local/src',
+  $disable_irqbalance     = false,
 ) inherits ::aerospike::params {
 
   validate_string(
@@ -129,6 +130,7 @@ class aerospike (
   if $system_gid and ! is_integer($system_gid) { fail("invalid ${system_gid} provided") }
   if $tools_version { validate_string($tools_version) }
 
+  include '::aerospike::irqbalance'
   include '::aerospike::service'
 
   if $asinstall {

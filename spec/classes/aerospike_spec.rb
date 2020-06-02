@@ -647,4 +647,31 @@ describe 'aerospike' do
     it_behaves_like 'amc-related', 'Debian', 'Debian', '8'
     it_behaves_like 'amc-related', 'Debian', 'Ubuntu', '18.04'
   end
+
+  describe 'disable irqbalance' do
+    let(:params) { { disable_irqbalance: true } }
+    let(:facts) do
+      {
+        osfamily: 'Debian',
+        operatingsystem: 'Debian',
+        operatingsystemmajrelease: '9'
+      }
+    end
+
+    let(:target_dir) { '/usr/local/src/aerospike-server-community-3.8.4-debian8' }
+
+    it { is_expected.to compile.with_all_deps }
+    it { is_expected.to contain_class('aerospike::install').that_comes_before('Class[aerospike::config]') }
+    it { is_expected.to contain_class('aerospike::config').that_comes_before('Class[aerospike::service]') }
+    it { is_expected.to create_file('/etc/aerospike/aerospike.conf') }
+
+    it { is_expected.to contain_service('irqbalance').with_ensure('running') }
+
+    it {
+      is_expected.to contain_file_line('irqbalance').with({
+      'path' => '/etc/default/irqbalance',
+      'line' => 'IRQBALANCE_ARGS="--policyscript=/etc/aerospike/irqbalance-ban.sh"',
+    }) }
+  end
+
 end
