@@ -10,6 +10,7 @@ group :test do
   gem 'rspec-puppet'
   gem 'rspec-puppet-facts'
   gem 'rubocop-rspec', require: false if RUBY_VERSION >= '2.3.0'
+  gem 'rubocop-i18n', require: false if RUBY_VERSION >= '2.3.0'
   gem 'simplecov', '>= 0.11.0'
   gem 'simplecov-console'
 
