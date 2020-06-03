@@ -12,8 +12,8 @@ SimpleCov.start do
   formatter SimpleCov::Formatter::MultiFormatter.new(
     [
       SimpleCov::Formatter::HTMLFormatter,
-      SimpleCov::Formatter::Console
-    ]
+      SimpleCov::Formatter::Console,
+    ],
   )
 end
 

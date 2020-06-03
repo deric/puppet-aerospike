@@ -4,7 +4,7 @@ require:
 - rubocop-i18n
 AllCops:
   DisplayCopNames: true
-  TargetRubyVersion: '2.4'
+  TargetRubyVersion: '2.1'
   Include:
   - "./**/*.rb"
   Exclude:
@@ -18,7 +18,7 @@ AllCops:
   - "**/Puppetfile"
   - "**/Vagrantfile"
   - "**/Guardfile"
-Layout/LineLength:
+Metrics/LineLength:
   Description: People have wide screens, use them.
   Max: 200
 GetText:
@@ -68,11 +68,9 @@ Style/TrailingCommaInArguments:
   Description: Prefer always trailing comma on multiline argument lists. This makes
     diffs, and re-ordering nicer.
   EnforcedStyleForMultiline: comma
-Style/TrailingCommaInArrayLiteral:
+Style/TrailingCommaInLiteral:
   Description: Prefer always trailing comma on multiline literals. This makes diffs,
     and re-ordering nicer.
-  EnforcedStyleForMultiline: comma
-Style/TrailingCommaInHashLiteral:
   EnforcedStyleForMultiline: comma
 Style/SymbolArray:
   Description: Using percent style obscures symbolic intent of array's contents.
@@ -99,7 +97,7 @@ GetText/DecorateStringFormattingUsingPercent:
   Enabled: false
 Layout/EndOfLine:
   Enabled: false
-Layout/HeredocIndentation:
+Layout/IndentHeredoc:
   Enabled: false
 Metrics/AbcSize:
   Enabled: false

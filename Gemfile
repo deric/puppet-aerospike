@@ -9,6 +9,7 @@ group :test do
   gem 'rspec-core', '< 3.2.0' if RUBY_VERSION < '1.9'
   gem 'rspec-puppet'
   gem 'rspec-puppet-facts'
+  gem 'rubocop', '~> 0.49.0', require: false if RUBY_VERSION >= '2.3.0'
   gem 'rubocop-rspec', require: false if RUBY_VERSION >= '2.3.0'
   gem 'rubocop-i18n', require: false if RUBY_VERSION >= '2.3.0'
   gem 'simplecov', '>= 0.11.0'
