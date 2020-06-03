@@ -33,9 +33,7 @@ class aerospike (
     'transaction-threads-per-queue' => 4,
     'proto-fd-max'                  => 15000,
   },
-  $config_logging = {
-    '/var/log/aerospike/aerospike.log' => [ 'any info', ],
-  },
+  $config_logging = $::aerospike::params::config_logging,
   $config_mod_lua = {},
   $config_net_svc = {
     'address' => 'any',

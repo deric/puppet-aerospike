@@ -13,34 +13,83 @@ class aerospike::params {
       case $::operatingsystem {
         'Debian': {
           case $::operatingsystemmajrelease {
-            '7': { $target_os_tag = 'debian7' }
-            '8': { $target_os_tag = 'debian8' }
-            default: { $target_os_tag = 'debian8' }
+            '7': {
+              $target_os_tag = 'debian7'
+              $logging_target = '/var/log/aerospike/aerospike.log'
+            }
+            '8': {
+              $target_os_tag = 'debian8'
+              $logging_target = '/var/log/aerospike/aerospike.log'
+            }
+            '9': {
+              $target_os_tag = 'debian9'
+              $logging_target = 'console'
+            }
+            '10': {
+              $target_os_tag = 'debian10'
+              $logging_target = 'console'
+            }
+            default: {
+              $target_os_tag = 'debian10'
+              $logging_target = 'console'
+            }
           }
         }
         'Ubuntu': {
           case $::operatingsystemmajrelease {
-            '12.04': { $target_os_tag = 'ubuntu12.04' }
-            '14.04': { $target_os_tag = 'ubuntu14.04' }
-            '16.04': { $target_os_tag = 'ubuntu16.04' }
-            '18.04': { $target_os_tag = 'ubuntu18.04' }
-            default: { $target_os_tag = 'ubuntu18.04' }
+            '12.04': {
+              $target_os_tag = 'ubuntu12.04'
+              $logging_target = '/var/log/aerospike/aerospike.log'
+            }
+            '14.04': {
+              $target_os_tag = 'ubuntu14.04'
+              $logging_target = '/var/log/aerospike/aerospike.log'
+            }
+            '16.04': {
+              $target_os_tag = 'ubuntu16.04'
+              $logging_target = '/var/log/aerospike/aerospike.log'
+            }
+            '18.04': {
+              $target_os_tag = 'ubuntu18.04'
+              $logging_target = '/var/log/aerospike/aerospike.log'
+            }
+            default: {
+              $target_os_tag = 'ubuntu18.04'
+              $logging_target = 'console'
+            }
           }
         }
-        default: { $target_os_tag = 'debian8' }
+        default: {
+          $target_os_tag = undef
+          $logging_target = $logging_target = 'console'
+        }
       }
     }
     'Redhat': {
       case $::operatingsystemmajrelease {
-        '6': { $target_os_tag = 'el6' }
-        '7': { $target_os_tag = 'el7' }
-        default: { $target_os_tag = 'el7' }
+        '6': {
+          $target_os_tag = 'el6'
+          $logging_target = '/var/log/aerospike/aerospike.log'
+        }
+        '7': {
+          $target_os_tag = 'el7'
+          $logging_target = '/var/log/aerospike/aerospike.log'
+        }
+        default: {
+          $target_os_tag = 'el7'
+          $logging_target = '/var/log/aerospike/aerospike.log'
+        }
       }
 
     }
     default: {
       $target_os_tag = undef
+      $logging_target = 'console'
     }
+  }
+
+  $config_logging = {
+    $logging_target => [ 'any info', ],
   }
 
 }

@@ -1,6 +1,6 @@
 # Aerospike Puppet module
 
-[![TravisBuild](https://travis-ci.org/tubemogul/puppet-aerospike.svg?branch=master)](https://travis-ci.org/tubemogul/puppet-aerospike)
+[![TravisBuild](https://travis-ci.org/deric/puppet-aerospike.svg?branch=master)](https://travis-ci.org/deric/puppet-aerospike)
 [![Puppet Forge latest release](https://img.shields.io/puppetforge/v/TubeMogul/aerospike.svg)](https://forge.puppetlabs.com/TubeMogul/aerospike)
 [![Puppet Forge downloads](https://img.shields.io/puppetforge/dt/TubeMogul/aerospike.svg)](https://forge.puppetlabs.com/TubeMogul/aerospike)
 [![Puppet Forge score](https://img.shields.io/puppetforge/f/TubeMogul/aerospike.svg)](https://forge.puppetlabs.com/TubeMogul/aerospike/scores)
@@ -776,10 +776,10 @@ This parameter is a hash table with:
 
 The default value is:
 
-```
-{
-  '/var/log/aerospike/aerospike.log' => [ 'any info', ],
-}
+```yaml
+aerospike::config_logging:
+  '/var/log/aerospike/aerospike.log':
+    - any detail
 ```
 
 Which generates the following configuration for the logging context:
@@ -792,8 +792,24 @@ logging {
 }
 ```
 
-For more information about logging management in aerospike, check:
-http://www.aerospike.com/docs/operations/configure/log/
+For systemd based system, the logs by default are configured to go to the console:
+
+```yaml
+aerospike::config_logging:
+  console:
+    - any detail
+```
+
+Which generates following configuration:
+```
+logging {
+    console {
+        context any info
+    }
+}
+```
+
+For more information about logging management in aerospike, check [the documentation](http://www.aerospike.com/docs/operations/configure/log/).
 
 
 ##### `config_mod_lua`

@@ -545,6 +545,8 @@ describe 'aerospike' do
   context 'supported operating systems - tools-related tests' do
     # execute shared tests on various distributions
     # parameters :                  osfamily, dist, majrelease
+    it_behaves_like 'tools-related', 'Debian', 'Debian', '10', 'debian10'
+    it_behaves_like 'tools-related', 'Debian', 'Debian', '9', 'debian9'
     it_behaves_like 'tools-related', 'Debian', 'Debian', '8', 'debian8'
     it_behaves_like 'tools-related', 'Debian', 'Ubuntu', '18.04', 'ubuntu18.04'
     it_behaves_like 'tools-related', 'RedHat', 'RedHat', '7', 'el7'
@@ -664,5 +666,56 @@ describe 'aerospike' do
       is_expected.to contain_file_line('irqbalance').with('path' => '/etc/default/irqbalance',
                                                           'line' => 'IRQBALANCE_ARGS="--policyscript=/etc/aerospike/irqbalance-ban.sh"')
     }
+  end
+
+  describe 'logging configuration' do
+    let(:params) do
+      {
+        enable_logging: true,
+        config_logging: {
+          '/var/log/aerospike/aerospike.log' => ['any info'],
+        },
+      }
+    end
+    let(:facts) do
+      {
+        osfamily: 'Debian',
+        operatingsystem: 'Debian',
+        operatingsystemmajrelease: '9',
+      }
+    end
+
+    it { is_expected.to compile.with_all_deps }
+
+    it do
+      is_expected.to create_file('/etc/aerospike/aerospike.conf')\
+        .with_content(%r{^\s*logging \{$})\
+        .with_content(%r{^\s*file /var/log/aerospike/aerospike.log \{$})\
+        .with_content(%r{^\s*context any info$})\
+        .with_content(%r{^\s*\}$})\
+        .with_content(%r{^\s*\}$})
+    end
+
+    describe 'on systemd systems' do
+      let(:params) do
+        {
+          enable_logging: true,
+          config_logging: {
+            'console' => ['any info'],
+          },
+        }
+      end
+
+      it { is_expected.to compile.with_all_deps }
+
+      it do
+        is_expected.to create_file('/etc/aerospike/aerospike.conf')\
+          .with_content(%r{^\s*logging \{$})\
+          .with_content(%r{^\s*console \{$})\
+          .with_content(%r{^\s*context any info$})\
+          .with_content(%r{^\s*\}$})\
+          .with_content(%r{^\s*\}$})
+      end
+    end
   end
 end

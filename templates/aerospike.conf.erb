@@ -12,8 +12,12 @@ service {
 <% if scope.lookupvar('aerospike::enable_logging') -%>
 # logging context definition
 logging {
-<% scope.lookupvar('aerospike::config_logging').sort.each do |k,v| -%>
+<% scope.lookupvar('aerospike::config_logging').sort.each do |k,v|
+  if k == 'console' -%>
+  <%= k %> {
+<% else -%>
   file <%= k %> {
+<% end -%>
 <% v.sort.each do |item| -%>
     context <%= item %>
 <% end -%>
