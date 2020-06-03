@@ -130,12 +130,12 @@ class aerospike (
   if $system_gid and ! is_integer($system_gid) { fail("invalid ${system_gid} provided") }
   if $tools_version { validate_string($tools_version) }
 
-  include '::aerospike::irqbalance'
-  include '::aerospike::service'
+  include aerospike::irqbalance
+  include aerospike::service
 
   if $asinstall {
-    include '::aerospike::install'
-    include '::aerospike::config'
+    include aerospike::install
+    include aerospike::config
 
     Class['aerospike::install'] -> Class['aerospike::config'] -> Class['aerospike::service']
 
@@ -145,7 +145,7 @@ class aerospike (
   }
 
   if $amc_install {
-    include '::aerospike::amc'
+    include aerospike::amc
     Class['aerospike::amc'] -> Class['aerospike::service']
   }
 }

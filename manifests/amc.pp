@@ -10,7 +10,7 @@
 #
 class aerospike::amc {
 
-  include '::archive'
+  include archive
 
   # On the amc, some elements are changing depending on the os familly
   case $::osfamily {

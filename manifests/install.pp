@@ -10,7 +10,7 @@
 #
 class aerospike::install {
 
-  include '::archive'
+  include archive
 
   # #######################################
   # Installation of aerospike server
