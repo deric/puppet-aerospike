@@ -718,4 +718,26 @@ describe 'aerospike' do
       end
     end
   end
+
+  describe 'permissions for storate device' do
+    let(:params) do
+      {
+        system_user: 'aerospike',
+        device: '/dev/sda',
+      }
+    end
+    let(:facts) do
+      {
+        osfamily: 'Debian',
+        operatingsystem: 'Debian',
+        operatingsystemmajrelease: '10',
+      }
+    end
+
+
+    it do
+      is_expected.to contain_file('/dev/sda')\
+        .with_owner('aerospike')
+    end
+  end
 end

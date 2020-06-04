@@ -90,4 +90,10 @@ class aerospike::install {
       refreshonly => true,
     }
   }
+
+  if $aerospike::device and $aerospike::system_user != 'root' {
+    file { $aerospike::device:
+      owner => $aerospike::system_user,
+    }
+  }
 }

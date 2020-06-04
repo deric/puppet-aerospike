@@ -84,6 +84,7 @@ class aerospike (
   $tools_download_url     = undef,
   $tools_download_dir     = '/usr/local/src',
   $disable_irqbalance     = false,
+  $device                 = undef,
 ) inherits ::aerospike::params {
 
   validate_string(
