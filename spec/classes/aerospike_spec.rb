@@ -734,7 +734,6 @@ describe 'aerospike' do
       }
     end
 
-
     it do
       is_expected.to contain_file('/dev/sda')\
         .with_owner('aerospike')
