@@ -92,8 +92,10 @@ class aerospike::install {
   }
 
   if $aerospike::device and $aerospike::system_user != 'root' {
-    file { $aerospike::device:
-      owner => $aerospike::system_user,
+    exec {'chown_data_device':
+      command => "chown ${aerospike::system_user} $(realpath ${aerospike::device})",
+      path    => ['/bin', '/sbin', '/usr/bin', '/usr/sbin'],
+      unless  => "stat --format '%U' $(realpath ${aerospike::device}) | grep ${aerospike::system_user}",
     }
   }
 }

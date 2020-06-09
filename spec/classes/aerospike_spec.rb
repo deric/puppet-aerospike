@@ -735,8 +735,8 @@ describe 'aerospike' do
     end
 
     it do
-      is_expected.to contain_file('/dev/sda')\
-        .with_owner('aerospike')
+      is_expected.to contain_exec('chown_data_device')\
+        .with_command('chown aerospike $(realpath /dev/sda)')
     end
   end
 end
