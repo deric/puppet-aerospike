@@ -101,9 +101,10 @@ class aerospike::install {
 
   if $aerospike::manage_udf {
     file { $aerospike::udf_path:
-      ensure => directory,
-      owner  => $aerospike::system_user,
-      group  => $aerospike::system_group,
+      ensure  => directory,
+      recurse => true,
+      owner   => $aerospike::system_user,
+      group   => $aerospike::system_group,
     }
   }
 }

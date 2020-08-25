@@ -86,7 +86,7 @@ class aerospike (
   $disable_irqbalance     = false,
   $device                 = undef,
   $udf_path               = '/opt/aerospike/usr/udf/lua',
-  $manage_udf             = true,
+  $manage_udf             = false,
 ) inherits ::aerospike::params {
 
   validate_string(
