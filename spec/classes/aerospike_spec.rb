@@ -739,4 +739,28 @@ describe 'aerospike' do
         .with_command('chown aerospike $(realpath /dev/sda)')
     end
   end
+
+  describe 'manage UDF directory' do
+    let(:params) do
+      {
+        system_user: 'aerospike',
+        system_group: 'aerospike',
+        manage_udf: true,
+      }
+    end
+    let(:facts) do
+      {
+        osfamily: 'Debian',
+        operatingsystem: 'Debian',
+        operatingsystemmajrelease: '10',
+      }
+    end
+
+    it do
+      is_expected.to contain_file('/opt/aerospike/usr/udf/lua')\
+        .with_ensure('directory')\
+        .with_owner('aerospike')\
+        .with_group('aerospike')
+    end
+  end
 end

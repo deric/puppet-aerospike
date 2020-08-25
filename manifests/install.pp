@@ -98,4 +98,12 @@ class aerospike::install {
       unless  => "stat --format '%U' $(realpath ${aerospike::device}) | grep ${aerospike::system_user}",
     }
   }
+
+  if $aerospike::manage_udf {
+    file { $aerospike::udf_path:
+      ensure => directory,
+      owner  => $aerospike::system_user,
+      group  => $aerospike::system_group,
+    }
+  }
 }

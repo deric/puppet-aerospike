@@ -85,6 +85,8 @@ class aerospike (
   $tools_download_dir     = '/usr/local/src',
   $disable_irqbalance     = false,
   $device                 = undef,
+  $udf_path               = '/opt/aerospike/usr/udf/lua',
+  $manage_udf             = true,
 ) inherits ::aerospike::params {
 
   validate_string(
