@@ -7,41 +7,6 @@
   "source": "git@github.com:deric/puppet-aerospike.git",
   "project_page": "https://github.com/deric/puppet-aerospike",
   "issues_url": "https://github.com/deric/puppet-aerospike/issues",
-  "tags": ["aerospike", "database", "nosql"],
-  "operatingsystem_support": [
-    {
-      "operatingsystem": "Ubuntu",
-      "operatingsystemrelease":
-      [
-       "18.04","20.04"
-      ]
-    },
-    {
-      "operatingsystem": "Debian",
-      "operatingsystemrelease":
-      [
-        "9","10","11"
-      ]
-    },
-    {
-      "operatingsystem": "RedHat",
-      "operatingsystemrelease": [
-        "6", "7"
-      ]
-    },
-    {
-      "operatingsystem": "CentOS",
-      "operatingsystemrelease": [
-        "6", "7"
-      ]
-    },
-    {
-      "operatingsystem": "OracleLinux",
-      "operatingsystemrelease": [
-        "6", "7"
-      ]
-    }
-  ],
   "dependencies": [
     {
       "name": "puppet/archive",
@@ -52,10 +17,56 @@
       "version_requirement": ">= 2.2.1 < 9.0.0"
     }
   ],
+  "operatingsystem_support": [
+    {
+      "operatingsystem": "Ubuntu",
+      "operatingsystemrelease": [
+        "18.04",
+        "20.04"
+      ]
+    },
+    {
+      "operatingsystem": "Debian",
+      "operatingsystemrelease": [
+        "9",
+        "10",
+        "11"
+      ]
+    },
+    {
+      "operatingsystem": "RedHat",
+      "operatingsystemrelease": [
+        "6",
+        "7"
+      ]
+    },
+    {
+      "operatingsystem": "CentOS",
+      "operatingsystemrelease": [
+        "6",
+        "7"
+      ]
+    },
+    {
+      "operatingsystem": "OracleLinux",
+      "operatingsystemrelease": [
+        "6",
+        "7"
+      ]
+    }
+  ],
   "requirements": [
     {
       "name": "puppet",
       "version_requirement": ">= 5.0.0 < 8.0.0"
     }
-  ]
+  ],
+  "tags": [
+    "aerospike",
+    "database",
+    "nosql"
+  ],
+  "pdk-version": "2.2.0",
+  "template-url": "pdk-default#2.2.0",
+  "template-ref": "tags/2.2.0-0-g2381db6"
 }
