@@ -5,9 +5,9 @@
 # restarted only once after any change in the aerospike::config class.
 #
 define aerospike::xdr_credentials_file (
-  $all_xdr_credentials,
-  $owner = 'root',
-  $group = 'root',
+  Hash   $all_xdr_credentials,
+  String $owner = 'root',
+  String $group = 'root',
 ) {
   if ! empty($all_xdr_credentials) {
     $dc_credentials = $all_xdr_credentials[$name]

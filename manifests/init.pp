@@ -9,7 +9,7 @@
 #
 class aerospike (
   Boolean              $asinstall                = true,
-  String               $version                  = '3.8.4',
+  String               $version                  = '5.7.0.11',
   Stdlib::Absolutepath $download_dir             = '/usr/local/src',
   Optional[String]     $download_url             = undef,
   Boolean              $remove_archive           = false,

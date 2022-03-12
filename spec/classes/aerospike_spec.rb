@@ -25,7 +25,7 @@ describe 'aerospike' do
 
       # Tests related to the aerospike::install class
       it { is_expected.to contain_class('archive') }
-      it { is_expected.to contain_archive("/usr/local/src/aerospike-server-community-3.8.4-#{expected_tag}.tgz") }
+      it { is_expected.to contain_archive("/usr/local/src/aerospike-server-community-5.7.0.11-#{expected_tag}.tgz") }
       it { is_expected.to contain_exec('aerospike-install-server') }
       it { is_expected.to contain_user('root') }
       it { is_expected.to contain_group('root') }
@@ -48,8 +48,8 @@ describe 'aerospike' do
     describe "aerospike class with custom url on #{osfamily}" do
       let(:params) do
         {
-          version: '3.8.4',
-          download_url: "http://my_fileserver.example.com/aerospike/aerospike-server-enterprise-3.8.4-#{expected_tag}.tgz",
+          version: '5.7.0.11',
+          download_url: "http://my_fileserver.example.com/aerospike/aerospike-server-enterprise-5.7.0.11-#{expected_tag}.tgz",
           edition: 'enterprise',
         }
       end
@@ -60,14 +60,14 @@ describe 'aerospike' do
           operatingsystemmajrelease: majrelease,
         }
       end
-      let(:target_dir) { "/usr/local/src/aerospike-server-enterprise-3.8.4-#{expected_tag}" }
+      let(:target_dir) { "/usr/local/src/aerospike-server-enterprise-5.7.0.11-#{expected_tag}" }
 
       it { is_expected.to compile.with_all_deps }
 
       it do
-        is_expected.to contain_archive("/usr/local/src/aerospike-server-enterprise-3.8.4-#{expected_tag}.tgz")\
+        is_expected.to contain_archive("/usr/local/src/aerospike-server-enterprise-5.7.0.11-#{expected_tag}.tgz")\
           .with_ensure('present')\
-          .with_source("http://my_fileserver.example.com/aerospike/aerospike-server-enterprise-3.8.4-#{expected_tag}.tgz")\
+          .with_source("http://my_fileserver.example.com/aerospike/aerospike-server-enterprise-5.7.0.11-#{expected_tag}.tgz")\
           .with_extract(true)\
           .with_extract_path('/usr/local/src')\
           .with_creates(target_dir)\
@@ -89,7 +89,7 @@ describe 'aerospike' do
     describe "aerospike class with all parameters (except custom url) on #{osfamily}, #{majrelease}" do
       let(:params) do
         {
-          version: '3.8.4',
+          version: '5.7.0.11',
           download_dir: '/tmp',
           remove_archive:   true,
           edition:          'enterprise',
@@ -195,7 +195,7 @@ describe 'aerospike' do
         }
       end
 
-      let(:target_dir) { "/tmp/aerospike-server-enterprise-3.8.4-#{expected_tag}" }
+      let(:target_dir) { "/tmp/aerospike-server-enterprise-5.7.0.11-#{expected_tag}" }
 
       it { is_expected.to compile.with_all_deps }
 
@@ -207,9 +207,9 @@ describe 'aerospike' do
 
       # Tests related to the aerospike::install class
       it do
-        is_expected.to contain_archive("/tmp/aerospike-server-enterprise-3.8.4-#{expected_tag}.tgz")\
+        is_expected.to contain_archive("/tmp/aerospike-server-enterprise-5.7.0.11-#{expected_tag}.tgz")\
           .with_ensure('present')\
-          .with_source("http://www.aerospike.com/artifacts/aerospike-server-enterprise/3.8.4/aerospike-server-enterprise-3.8.4-#{expected_tag}.tgz")\
+          .with_source("http://www.aerospike.com/artifacts/aerospike-server-enterprise/5.7.0.11/aerospike-server-enterprise-5.7.0.11-#{expected_tag}.tgz")\
           .with_username('dummy_user')\
           .with_password('dummy_password')\
           .with_extract(true)\
@@ -493,7 +493,7 @@ describe 'aerospike' do
       }
     end
 
-    let(:target_dir) { '/usr/local/src/aerospike-server-community-3.8.4-debian8' }
+    let(:target_dir) { '/usr/local/src/aerospike-server-community-5.7.0.11-debian8' }
 
     it { is_expected.to compile.with_all_deps }
     it { is_expected.to contain_class('aerospike::install').that_comes_before('Class[aerospike::config]') }
@@ -653,7 +653,7 @@ describe 'aerospike' do
       }
     end
 
-    let(:target_dir) { '/usr/local/src/aerospike-server-community-3.8.4-debian8' }
+    let(:target_dir) { '/usr/local/src/aerospike-server-community-5.7.0.11-debian8' }
 
     it { is_expected.to compile.with_all_deps }
     it { is_expected.to contain_class('aerospike::install').that_comes_before('Class[aerospike::config]') }

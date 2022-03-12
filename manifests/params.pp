@@ -13,10 +13,6 @@ class aerospike::params {
       case $::operatingsystem {
         'Debian': {
           case $::operatingsystemmajrelease {
-            '7': {
-              $target_os_tag = 'debian7'
-              $logging_target = '/var/log/aerospike/aerospike.log'
-            }
             '8': {
               $target_os_tag = 'debian8'
               $logging_target = '/var/log/aerospike/aerospike.log'
@@ -29,10 +25,6 @@ class aerospike::params {
               $target_os_tag = 'debian10'
               $logging_target = 'console'
             }
-            '11': {
-              $target_os_tag = 'debian11'
-              $logging_target = 'console'
-            }
             default: {
               $target_os_tag = 'debian10'
               $logging_target = 'console'
@@ -41,18 +33,6 @@ class aerospike::params {
         }
         'Ubuntu': {
           case $::operatingsystemmajrelease {
-            '12.04': {
-              $target_os_tag = 'ubuntu12.04'
-              $logging_target = '/var/log/aerospike/aerospike.log'
-            }
-            '14.04': {
-              $target_os_tag = 'ubuntu14.04'
-              $logging_target = '/var/log/aerospike/aerospike.log'
-            }
-            '16.04': {
-              $target_os_tag = 'ubuntu16.04'
-              $logging_target = '/var/log/aerospike/aerospike.log'
-            }
             '18.04': {
               $target_os_tag = 'ubuntu18.04'
               $logging_target = '/var/log/aerospike/aerospike.log'
@@ -75,17 +55,17 @@ class aerospike::params {
     }
     'Redhat': {
       case $::operatingsystemmajrelease {
-        '6': {
-          $target_os_tag = 'el6'
-          $logging_target = '/var/log/aerospike/aerospike.log'
-        }
         '7': {
           $target_os_tag = 'el7'
           $logging_target = '/var/log/aerospike/aerospike.log'
         }
+        '8': {
+          $target_os_tag = 'el8'
+          $logging_target = 'console'
+        }
         default: {
-          $target_os_tag = 'el7'
-          $logging_target = '/var/log/aerospike/aerospike.log'
+          $target_os_tag = 'el8'
+          $logging_target = 'console'
         }
       }
 
