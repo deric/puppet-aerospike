@@ -29,6 +29,10 @@ class aerospike::params {
               $target_os_tag = 'debian10'
               $logging_target = 'console'
             }
+            '11': {
+              $target_os_tag = 'debian11'
+              $logging_target = 'console'
+            }
             default: {
               $target_os_tag = 'debian10'
               $logging_target = 'console'
@@ -52,6 +56,10 @@ class aerospike::params {
             '18.04': {
               $target_os_tag = 'ubuntu18.04'
               $logging_target = '/var/log/aerospike/aerospike.log'
+            }
+            '20.04': {
+              $target_os_tag = 'ubuntu18.04'
+              $logging_target = 'console'
             }
             default: {
               $target_os_tag = 'ubuntu18.04'
