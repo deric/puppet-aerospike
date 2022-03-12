@@ -5,27 +5,27 @@
 # service.
 #
 # For the full documentation, please refer to:
-# https://github.com/tubemogul/puppet-aerospike/blob/master/README.markdown
+# https://github.com/deric/puppet-aerospike/blob/master/README.md
 #
 class aerospike (
-  $asinstall                = true,
-  $version                  = '3.8.4',
-  $download_dir             = '/usr/local/src',
-  $download_url             = undef,
-  $remove_archive           = false,
-  $edition                  = 'community',
-  $target_os_tag            = $::aerospike::params::target_os_tag,
-  $download_user            = undef,
-  $download_pass            = undef,
-  $asinstall_params         = undef,
-  $system_user              = 'root',
-  $system_uid               = undef,
-  $system_group             = 'root',
-  $system_gid               = undef,
-  $manage_service           = true,
-  $restart_on_config_change = true,
-  $enable_logging           = true,
-  $config_service           = {
+  Boolean              $asinstall                = true,
+  String               $version                  = '3.8.4',
+  Stdlib::Absolutepath $download_dir             = '/usr/local/src',
+  Optional[String]     $download_url             = undef,
+  Boolean              $remove_archive           = false,
+  String               $edition                  = 'community',
+  String               $target_os_tag            = $::aerospike::params::target_os_tag,
+  Optional[String]     $download_user            = undef,
+  Optional[String]     $download_pass            = undef,
+  Optional[String]     $asinstall_params         = undef,
+  String               $system_user              = 'root',
+  Optional[Integer]    $system_uid               = undef,
+  String               $system_group             = 'root',
+  Optional[Integer]    $system_gid               = undef,
+  Boolean              $manage_service           = true,
+  Boolean              $restart_on_config_change = true,
+  Boolean              $enable_logging           = true,
+  Hash                 $config_service           = {
     'paxos-single-replica-limit'    => 1,
     'pidfile'                       => '/var/run/aerospike/asd.pid',
     'service-threads'               => 4,
@@ -33,28 +33,28 @@ class aerospike (
     'transaction-threads-per-queue' => 4,
     'proto-fd-max'                  => 15000,
   },
-  $config_logging = $::aerospike::params::config_logging,
-  $config_mod_lua = {},
-  $config_net_svc = {
+  Hash $config_logging = $::aerospike::params::config_logging,
+  Hash $config_mod_lua = {},
+  Hash $config_net_svc = {
     'address' => 'any',
     'port'    => 3000,
   },
-  $config_net_fab = {
+  Hash $config_net_fab = {
     'address' => 'any',
     'port'    => 3001,
   },
-  $config_net_inf = {
+  Hash $config_net_inf = {
     'address' => 'any',
     'port'    => 3003,
   },
-  $config_net_hb  = {
+  Hash $config_net_hb  = {
     'mode'     => 'multicast',
     'address'  => 'any',
     'port'     => 9918,
     'interval' => 150,
     'timeout'  => 10,
   },
-  $config_ns      = {
+  Hash $config_ns      = {
     'foo'                     => {
       'replication-factor'    => 2,
       'memory-size'           => '1G',
@@ -66,66 +66,29 @@ class aerospike (
       ],
     },
   },
-  $config_cluster         = {},
-  $config_sec             = {},
-  $config_xdr             = {},
-  $config_xdr_credentials = {},
-  $service_status         = 'running',
-  $service_enable         = true,
-  $service_provider       = undef,
-  $amc_install            = false,
-  $amc_version            = '4.0.19',
-  $amc_download_dir       = '/usr/local/src',
-  $amc_download_url       = undef,
-  $amc_manage_service     = false,
-  $amc_service_status     = 'running',
-  $amc_service_enable     = true,
-  $tools_version          = undef,
-  $tools_download_url     = undef,
-  $tools_download_dir     = '/usr/local/src',
-  $disable_irqbalance     = false,
-  $device                 = undef,
-  $udf_path               = '/opt/aerospike/usr/udf/lua',
-  $manage_udf             = false,
+  Hash                 $config_cluster         = {},
+  Hash                 $config_sec             = {},
+  Hash                 $config_xdr             = {},
+  Hash                 $config_xdr_credentials = {},
+  String               $service_status         = 'running',
+  Boolean              $service_enable         = true,
+  Optional[String]     $service_provider       = undef,
+  Boolean              $amc_install            = false,
+  String               $amc_version            = '4.0.19',
+  Stdlib::Absolutepath $amc_download_dir       = '/usr/local/src',
+  Optional[String]     $amc_download_url       = undef,
+  Boolean              $amc_manage_service     = false,
+  String               $amc_service_status     = 'running',
+  Boolean              $amc_service_enable     = true,
+  Optional[String]     $tools_version          = undef,
+  Optional[String]     $tools_download_url     = undef,
+  Stdlib::Absolutepath $tools_download_dir     = '/usr/local/src',
+  Boolean              $disable_irqbalance     = false,
+  Optional[String]     $device                 = undef,
+  Stdlib::Absolutepath $udf_path               = '/opt/aerospike/usr/udf/lua',
+  Boolean              $manage_udf             = false,
 ) inherits ::aerospike::params {
 
-  validate_string(
-    $version,
-    $download_dir,
-    $edition,
-    $target_os_tag,
-    $system_user,
-    $system_group,
-    $service_status,
-    $amc_version,
-    $amc_download_dir,
-    $amc_service_status,
-    $tools_download_dir,
-  )
-  validate_bool(
-    $asinstall,
-    $amc_install,
-    $amc_manage_service,
-    $amc_service_enable,
-    $manage_service,
-    $remove_archive,
-    $restart_on_config_change,
-    $service_enable,
-  )
-  validate_hash(
-    $config_service,
-    $config_logging,
-    $config_mod_lua,
-    $config_net_svc,
-    $config_net_fab,
-    $config_net_inf,
-    $config_net_hb,
-    $config_ns,
-    $config_cluster,
-    $config_sec,
-    $config_xdr,
-    $config_xdr_credentials,
-  )
   if $service_provider { validate_string($service_provider) }
   if $system_uid and ! is_integer($system_uid) { fail("invalid ${system_uid} provided") }
   if $system_gid and ! is_integer($system_gid) { fail("invalid ${system_gid} provided") }
