@@ -13,7 +13,7 @@ class aerospike::amc {
   include archive
 
   # On the amc, some elements are changing depending on the os familly
-  case $::osfamily {
+  case $facts['os']['family'] {
     'Debian': {
       $amc_pkg_extension = '_amd64.deb'
       $amc_pkg_provider = 'dpkg'

@@ -8,11 +8,11 @@ class aerospike::params {
 
   # Select appropriate package for supported distribution.
   # See http://www.aerospike.com/download/
-  case $::osfamily {
+  case $facts['os']['family'] {
     'Debian': {
-      case $::operatingsystem {
+      case $facts['os']['name'] {
         'Debian': {
-          case $::operatingsystemmajrelease {
+          case $facts['os']['release']['major'] {
             '8': {
               $target_os_tag = 'debian8'
               $logging_target = '/var/log/aerospike/aerospike.log'
@@ -32,7 +32,7 @@ class aerospike::params {
           }
         }
         'Ubuntu': {
-          case $::operatingsystemmajrelease {
+          case $facts['os']['release']['major'] {
             '18.04': {
               $target_os_tag = 'ubuntu18.04'
               $logging_target = '/var/log/aerospike/aerospike.log'
@@ -54,7 +54,7 @@ class aerospike::params {
       }
     }
     'Redhat': {
-      case $::operatingsystemmajrelease {
+      case $facts['os']['release']['major'] {
         '7': {
           $target_os_tag = 'el7'
           $logging_target = '/var/log/aerospike/aerospike.log'

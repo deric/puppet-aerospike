@@ -10,8 +10,12 @@ describe 'aerospike' do
       let(:facts) do
         {
           osfamily: osfamily,
-          operatingsystem: dist,
-          operatingsystemmajrelease: majrelease,
+          os: {
+            family: osfamily,
+            name: dist,
+            architecture: 'amd64',
+            release: { major: majrelease },
+          },
         }
       end
 
@@ -56,8 +60,12 @@ describe 'aerospike' do
       let(:facts) do
         {
           osfamily: osfamily,
-          operatingsystem: dist,
-          operatingsystemmajrelease: majrelease,
+          os: {
+            family: osfamily,
+            name: dist,
+            architecture: 'amd64',
+            release: { major: majrelease },
+          },
         }
       end
       let(:target_dir) { "/usr/local/src/aerospike-server-enterprise-5.7.0.11-#{expected_tag}" }
@@ -94,8 +102,12 @@ describe 'aerospike' do
       let(:facts) do
         {
           osfamily: osfamily,
-          operatingsystem: dist,
-          operatingsystemmajrelease: majrelease,
+          os: {
+            family: osfamily,
+            name: dist,
+            architecture: 'amd64',
+            release: { major: majrelease },
+          },
         }
       end
       let(:target_file) { '/usr/local/src/aerospike-server-community-5.7.0.16-debian10.deb' }
@@ -132,8 +144,12 @@ describe 'aerospike' do
       let(:facts) do
         {
           osfamily: osfamily,
-          operatingsystem: dist,
-          operatingsystemmajrelease: majrelease,
+          os: {
+            family: osfamily,
+            name: dist,
+            architecture: 'amd64',
+            release: { major: majrelease },
+          },
         }
       end
       let(:target_file) { '/usr/local/src/aerospike-server-community-5.7.0.16-el8.rpm' }
@@ -266,8 +282,12 @@ describe 'aerospike' do
       let(:facts) do
         {
           osfamily: osfamily,
-          operatingsystem: dist,
-          operatingsystemmajrelease: majrelease,
+          os: {
+            family: osfamily,
+            name: dist,
+            architecture: 'amd64',
+            release: { major: majrelease },
+          },
         }
       end
 
@@ -401,8 +421,12 @@ describe 'aerospike' do
       let(:facts) do
         {
           osfamily: osfamily,
-          operatingsystem: dist,
-          operatingsystemmajrelease: majrelease,
+          os: {
+            family: osfamily,
+            name: dist,
+            architecture: 'amd64',
+            release: { major: majrelease },
+          },
         }
       end
 
@@ -416,8 +440,12 @@ describe 'aerospike' do
       let(:facts) do
         {
           osfamily: osfamily,
-          operatingsystem: dist,
-          operatingsystemmajrelease: majrelease,
+          os: {
+            family: osfamily,
+            name: dist,
+            architecture: 'amd64',
+            release: { major: majrelease },
+          },
         }
       end
 
@@ -457,8 +485,12 @@ describe 'aerospike' do
       let(:facts) do
         {
           osfamily: osfamily,
-          operatingsystem: dist,
-          operatingsystemmajrelease: majrelease,
+          os: {
+            family: osfamily,
+            name: dist,
+            architecture: 'amd64',
+            release: { major: majrelease },
+          },
         }
       end
 
@@ -489,8 +521,12 @@ describe 'aerospike' do
       let(:facts) do
         {
           osfamily: osfamily,
-          operatingsystem: dist,
-          operatingsystemmajrelease: majrelease,
+          os: {
+            family: osfamily,
+            name: dist,
+            architecture: 'amd64',
+            release: { major: majrelease },
+          },
         }
       end
 
@@ -523,8 +559,12 @@ describe 'aerospike' do
     let(:facts) do
       {
         osfamily: 'Debian',
-        operatingsystem: 'Ubuntu',
-        operatingsystemmajrelease: '18.04',
+        os: {
+          family: 'Debian',
+          name: 'Ubuntu',
+          architecture: 'amd64',
+          release: { major: '18.04' },
+        },
       }
     end
 
@@ -546,8 +586,12 @@ describe 'aerospike' do
     let(:facts) do
       {
         osfamily: 'Debian',
-        operatingsystem: 'Ubuntu',
-        operatingsystemmajrelease: '18.04',
+        os: {
+          family: 'Debian',
+          name: 'Ubuntu',
+          architecture: 'amd64',
+          release: { major: '18.04' },
+        },
       }
     end
 
@@ -564,8 +608,12 @@ describe 'aerospike' do
     let(:facts) do
       {
         osfamily: 'Debian',
-        operatingsystem: 'Debian',
-        operatingsystemmajrelease: '8',
+        os: {
+          family: 'Debian',
+          name: 'Debian',
+          architecture: 'amd64',
+          release: { major: '8' },
+        },
       }
     end
 
@@ -594,8 +642,12 @@ describe 'aerospike' do
       let(:facts) do
         {
           osfamily: osfamily,
-          operatingsystem: dist,
-          operatingsystemmajrelease: majrelease,
+          os: {
+            family: osfamily,
+            name: dist,
+            architecture: 'amd64',
+            release: { major: majrelease },
+          },
         }
       end
 
@@ -641,8 +693,12 @@ describe 'aerospike' do
       let(:facts) do
         {
           osfamily: osfamily,
-          operatingsystem: dist,
-          operatingsystemmajrelease: majrelease,
+          os: {
+            family: osfamily,
+            name: dist,
+            architecture: 'amd64',
+            release: { major: majrelease },
+          },
         }
       end
 
@@ -672,9 +728,12 @@ describe 'aerospike' do
       end
       let(:facts) do
         {
-          osfamily: osfamily,
-          operatingsystem: 'Debian',
-          operatingsystemmajrelease: '8',
+          os: {
+            family: osfamily,
+            name: dist,
+            architecture: 'amd64',
+            release: { major: '8' },
+          },
         }
       end
 
@@ -724,8 +783,12 @@ describe 'aerospike' do
     let(:facts) do
       {
         osfamily: 'Debian',
-        operatingsystem: 'Debian',
-        operatingsystemmajrelease: '9',
+        os: {
+          family: 'Debian',
+          name: 'Debian',
+          architecture: 'amd64',
+          release: { major: '9' },
+        },
       }
     end
 
@@ -756,8 +819,12 @@ describe 'aerospike' do
     let(:facts) do
       {
         osfamily: 'Debian',
-        operatingsystem: 'Debian',
-        operatingsystemmajrelease: '9',
+        os: {
+          family: 'Debian',
+          name: 'Debian',
+          architecture: 'amd64',
+          release: { major: '9' },
+        },
       }
     end
 
@@ -805,8 +872,12 @@ describe 'aerospike' do
     let(:facts) do
       {
         osfamily: 'Debian',
-        operatingsystem: 'Debian',
-        operatingsystemmajrelease: '10',
+        os: {
+          family: 'Debian',
+          name: 'Debian',
+          architecture: 'amd64',
+          release: { major: '10' },
+        },
       }
     end
 
@@ -827,8 +898,12 @@ describe 'aerospike' do
     let(:facts) do
       {
         osfamily: 'Debian',
-        operatingsystem: 'Debian',
-        operatingsystemmajrelease: '10',
+        os: {
+          family: 'Debian',
+          name: 'Debian',
+          architecture: 'amd64',
+          release: { major: '10' },
+        },
       }
     end
 

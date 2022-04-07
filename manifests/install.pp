@@ -24,7 +24,7 @@ class aerospike::install {
   if $aerospike::asinstall_params {
     $_asinstall_params = $aerospike::asinstall_params
   } else {
-    $_asinstall_params = $::osfamily ? {
+    $_asinstall_params = $facts['os']['family'] ? {
       'Debian' => '--force-confold -i',
       'RedHat' => '-Uvh',
       default  => '',

@@ -7,9 +7,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [Unreleased]
 
 
-## [1.5.1] - 2022-04-07
+## [1.6.0] - 2022-04-07
 ### Added
 - Support installation from deb|rpm package from [Github release page](https://github.com/aerospike/aerospike-server/releases)
+
+### Changed
+- Use hierarchical facts
 
 ## [1.5.0] - 2022-03-12
 ### Changed

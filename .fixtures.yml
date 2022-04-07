@@ -1,9 +1,6 @@
 fixtures:
   forge_modules:
      stdlib: "puppetlabs/stdlib"
-  repositories:
-    archive:
-      repo: "https://github.com/voxpupuli/puppet-archive.git"
-      ref:  "v1.3.0"
+     archive: "puppet/archive"
   symlinks:
     aerospike: "#{source_dir}"
