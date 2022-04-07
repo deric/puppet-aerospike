@@ -6,6 +6,15 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+
+## [1.5.1] - 2022-04-07
+### Added
+- Support installation from deb|rpm package from [Github release page](https://github.com/aerospike/aerospike-server/releases)
+
+## [1.5.0] - 2022-03-12
+### Changed
+- Use Puppet Types for all parameters
+
 ## [1.3.1] - 2018-04-04
 ### Added
 - Support for heartbeat unicast
