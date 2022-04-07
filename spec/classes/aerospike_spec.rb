@@ -83,6 +83,43 @@ describe 'aerospike' do
       end
     end
 
+    describe "aerospike class with github release on #{osfamily}" do
+      let(:params) do
+        {
+          version: '5.7.0.16',
+          target_os_tag: 'debian10',
+          download_url: 'https://github.com/aerospike/aerospike-server/releases/download/5.7.0.16/aerospike-server-community-5.7.0.16.debian10.x86_64.deb',
+        }
+      end
+      let(:facts) do
+        {
+          osfamily: osfamily,
+          operatingsystem: dist,
+          operatingsystemmajrelease: majrelease,
+        }
+      end
+      let(:target_file) { "/usr/local/src/aerospike-server-community-5.7.0.16-debian10.deb" }
+
+      it { is_expected.to compile.with_all_deps }
+
+      it do
+        is_expected.to contain_archive(target_file)\
+          .with_ensure('present')\
+          .with_source('https://github.com/aerospike/aerospike-server/releases/download/5.7.0.16/aerospike-server-community-5.7.0.16.debian10.x86_64.deb')\
+          .with_extract(false)\
+          .with_cleanup(false)\
+          .that_notifies('Package[aerospike-server-community]')
+      end
+
+      case osfamily
+      when 'Debian'
+        it { is_expected.to contain_package('aerospike-server-community')\
+          .with_ensure(/installed|present/)\
+          .with_source("/usr/local/src/aerospike-server-community-5.7.0.16-debian10.deb")
+        }
+      end
+    end
+
     # #####################################################################
     # Test with every parameter (except the custom urls covered earlier)
     # #####################################################################

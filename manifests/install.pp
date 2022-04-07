@@ -31,20 +31,45 @@ class aerospike::install {
     }
   }
 
-  archive { "${dest}.tgz":
-    ensure       => present,
-    source       => $src,
-    username     => $aerospike::download_user,
-    password     => $aerospike::download_pass,
-    extract      => true,
-    extract_path => $aerospike::download_dir,
-    creates      => $dest,
-    cleanup      => $aerospike::remove_archive,
-  } ~> exec { 'aerospike-install-server':
-    command     => "${dest}/asinstall ${_asinstall_params}",
-    cwd         => $dest,
-    refreshonly => true,
+  # releases from github (https://github.com/aerospike/aerospike-server/releases)
+  # no longer contain `asinstall` script
+
+  # findout extension of requested file
+  $src =~ /.([a-z]+)$/
+  case $1 {
+    'deb': {
+      archive { "${dest}.deb":
+        ensure       => present,
+        source       => $src,
+        username     => $aerospike::download_user,
+        password     => $aerospike::download_pass,
+        extract      => false,
+        cleanup      => $aerospike::remove_archive,
+      } ~> package { "aerospike-server-${aerospike::edition}":
+        ensure => installed,
+        provider => 'dpkg',
+        source => "${dest}.deb",
+      }
+    }
+    # tar.gz
+    default: {
+      archive { "${dest}.tgz":
+        ensure       => present,
+        source       => $src,
+        username     => $aerospike::download_user,
+        password     => $aerospike::download_pass,
+        extract      => true,
+        extract_path => $aerospike::download_dir,
+        creates      => $dest,
+        cleanup      => $aerospike::remove_archive,
+      } ~> exec { 'aerospike-install-server':
+        command     => "${dest}/asinstall ${_asinstall_params}",
+        cwd         => $dest,
+        refreshonly => true,
+      }
+    }
   }
+
 
 
   # #######################################

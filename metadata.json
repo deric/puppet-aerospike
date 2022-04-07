@@ -1,6 +1,6 @@
 {
   "name": "deric-aerospike",
-  "version": "1.5.0",
+  "version": "1.5.1",
   "author": "deric",
   "summary": "Aerospike servers management via Puppet",
   "license": "Apache-2.0",
