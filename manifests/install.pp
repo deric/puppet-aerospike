@@ -39,16 +39,16 @@ class aerospike::install {
   case $1 {
     'deb': {
       archive { "${dest}.deb":
-        ensure       => present,
-        source       => $src,
-        username     => $aerospike::download_user,
-        password     => $aerospike::download_pass,
-        extract      => false,
-        cleanup      => $aerospike::remove_archive,
+        ensure   => present,
+        source   => $src,
+        username => $aerospike::download_user,
+        password => $aerospike::download_pass,
+        extract  => false,
+        cleanup  => $aerospike::remove_archive,
       } ~> package { "aerospike-server-${aerospike::edition}":
-        ensure => installed,
+        ensure   => installed,
         provider => 'dpkg',
-        source => "${dest}.deb",
+        source   => "${dest}.deb",
       }
     }
     # tar.gz

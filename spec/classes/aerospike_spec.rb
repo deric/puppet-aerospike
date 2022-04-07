@@ -98,7 +98,7 @@ describe 'aerospike' do
           operatingsystemmajrelease: majrelease,
         }
       end
-      let(:target_file) { "/usr/local/src/aerospike-server-community-5.7.0.16-debian10.deb" }
+      let(:target_file) { '/usr/local/src/aerospike-server-community-5.7.0.16-debian10.deb' }
 
       it { is_expected.to compile.with_all_deps }
 
@@ -113,9 +113,10 @@ describe 'aerospike' do
 
       case osfamily
       when 'Debian'
-        it { is_expected.to contain_package('aerospike-server-community')\
-          .with_ensure(/installed|present/)\
-          .with_source("/usr/local/src/aerospike-server-community-5.7.0.16-debian10.deb")
+        it {
+          is_expected.to contain_package('aerospike-server-community')\
+            .with_ensure(%r{installed|present})\
+            .with_source('/usr/local/src/aerospike-server-community-5.7.0.16-debian10.deb')
         }
       end
     end
