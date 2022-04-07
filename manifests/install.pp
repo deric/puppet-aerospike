@@ -51,6 +51,20 @@ class aerospike::install {
         source   => "${dest}.deb",
       }
     }
+    'rpm': {
+      archive { "${dest}.rpm":
+        ensure   => present,
+        source   => $src,
+        username => $aerospike::download_user,
+        password => $aerospike::download_pass,
+        extract  => false,
+        cleanup  => $aerospike::remove_archive,
+      } ~> package { "aerospike-server-${aerospike::edition}":
+        ensure   => installed,
+        provider => 'rpm',
+        source   => "${dest}.rpm",
+      }
+    }
     # tar.gz
     default: {
       archive { "${dest}.tgz":
