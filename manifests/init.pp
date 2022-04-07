@@ -89,11 +89,6 @@ class aerospike (
   Boolean              $manage_udf             = false,
 ) inherits ::aerospike::params {
 
-  if $service_provider { validate_string($service_provider) }
-  if $system_uid and ! is_integer($system_uid) { fail("invalid ${system_uid} provided") }
-  if $system_gid and ! is_integer($system_gid) { fail("invalid ${system_gid} provided") }
-  if $tools_version { validate_string($tools_version) }
-
   include aerospike::irqbalance
   include aerospike::service
 
