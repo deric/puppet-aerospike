@@ -4,6 +4,9 @@
 # several files, the service would be restarted multiple times. The service is
 # restarted only once after any change in the aerospike::config class.
 #
+# @param all_xdr_credentials
+# @param owner
+# @param group
 define aerospike::xdr_credentials_file (
   Hash   $all_xdr_credentials,
   String $owner = 'root',
@@ -12,7 +15,7 @@ define aerospike::xdr_credentials_file (
   if ! empty($all_xdr_credentials) {
     $dc_credentials = $all_xdr_credentials[$name]
     file { "/etc/aerospike/security-credentials_${name}.txt":
-      ensure  => present,
+      ensure  => file,
       content => template('aerospike/security-credentials.conf.erb'),
       mode    => '0600',
       owner   => $owner,

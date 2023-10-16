@@ -7,6 +7,52 @@
 # For the full documentation, please refer to:
 # https://github.com/deric/puppet-aerospike/blob/master/README.md
 #
+# @param asinstall
+# @param version
+# @param download_dir
+# @param download_url
+# @param remove_archive
+# @param edition
+# @param target_os_tag
+# @param download_user
+# @param download_pass
+# @param asinstall_params
+# @param system_user
+# @param system_uid
+# @param system_group
+# @param system_gid
+# @param manage_service
+# @param restart_on_config_change
+# @param enable_logging
+# @param config_service
+# @param config_logging
+# @param config_mod_lua
+# @param config_net_svc
+# @param config_net_fab
+# @param config_net_inf
+# @param config_net_hb
+# @param config_ns
+# @param config_cluster
+# @param config_sec
+# @param config_xdr
+# @param config_xdr_credentials
+# @param service_status
+# @param service_enable
+# @param service_provider
+# @param amc_install
+# @param amc_version
+# @param amc_download_dir
+# @param amc_download_url
+# @param amc_manage_service
+# @param amc_service_status
+# @param amc_service_enable
+# @param tools_version
+# @param tools_download_url
+# @param tools_download_dir
+# @param disable_irqbalance
+# @param device
+# @param udf_path
+# @param manage_udf
 class aerospike (
   Boolean              $asinstall                = true,
   String               $version                  = '5.7.0.11',
