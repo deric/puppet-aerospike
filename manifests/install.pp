@@ -106,7 +106,7 @@ class aerospike::install {
   # #######################################
   if $aerospike::tools_version {
     $src_tools = $aerospike::tools_download_url ? {
-      undef   => "https://www.aerospike.com/artifacts/aerospike-tools/${aerospike::tools_version}/aerospike-tools-${aerospike::tools_version}-${aerospike::target_os_tag}.tgz",
+      undef   => "https://download.aerospike.com/artifacts/aerospike-tools/${aerospike::tools_version}/aerospike-tools-${aerospike::tools_version}-${aerospike::target_os_tag}.tgz",
       default => $aerospike::tools_download_url,
     }
     $dest_tools = "${aerospike::tools_download_dir}/aerospike-tools-${aerospike::tools_version}-${aerospike::target_os_tag}"
