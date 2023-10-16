@@ -4,7 +4,6 @@
 # your aerospike cluster.
 #
 class aerospike::config {
-
   file { '/etc/aerospike/aerospike.conf':
     ensure  => file,
     content => template('aerospike/aerospike.conf.erb'),

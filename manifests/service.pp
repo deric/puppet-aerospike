@@ -4,9 +4,8 @@
 # aerospike service on your servers.
 #
 class aerospike::service {
-
   if $aerospike::asinstall and $aerospike::manage_service {
-    service {'aerospike':
+    service { 'aerospike':
       ensure     => $aerospike::service_status,
       enable     => $aerospike::service_enable,
       hasrestart => true,
@@ -16,7 +15,7 @@ class aerospike::service {
   }
 
   if $aerospike::amc_install and $aerospike::amc_manage_service {
-    service {'amc':
+    service { 'amc':
       ensure     => $aerospike::amc_service_status,
       enable     => $aerospike::amc_service_enable,
       hasrestart => true,
@@ -24,5 +23,4 @@ class aerospike::service {
       provider   => $aerospike::service_provider,
     }
   }
-
 }

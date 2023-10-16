@@ -5,7 +5,6 @@
 # parameter.
 #
 class aerospike::params {
-
   # Select appropriate package for supported distribution.
   # See http://www.aerospike.com/download/
   case $facts['os']['family'] {
@@ -68,7 +67,6 @@ class aerospike::params {
           $logging_target = 'console'
         }
       }
-
     }
     default: {
       $target_os_tag = undef
@@ -77,7 +75,6 @@ class aerospike::params {
   }
 
   $config_logging = {
-    $logging_target => [ 'any info', ],
+    $logging_target => ['any info',],
   }
-
 }

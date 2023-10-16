@@ -14,7 +14,7 @@ class aerospike (
   Optional[String]     $download_url             = undef,
   Boolean              $remove_archive           = false,
   String               $edition                  = 'community',
-  String               $target_os_tag            = $::aerospike::params::target_os_tag,
+  String               $target_os_tag            = $aerospike::params::target_os_tag,
   Optional[String]     $download_user            = undef,
   Optional[String]     $download_pass            = undef,
   Optional[String]     $asinstall_params         = undef,
@@ -33,7 +33,7 @@ class aerospike (
     'transaction-threads-per-queue' => 4,
     'proto-fd-max'                  => 15000,
   },
-  Hash $config_logging = $::aerospike::params::config_logging,
+  Hash $config_logging = $aerospike::params::config_logging,
   Hash $config_mod_lua = {},
   Hash $config_net_svc = {
     'address' => 'any',
@@ -87,8 +87,7 @@ class aerospike (
   Optional[String]     $device                 = undef,
   Stdlib::Absolutepath $udf_path               = '/opt/aerospike/usr/udf/lua',
   Boolean              $manage_udf             = false,
-) inherits ::aerospike::params {
-
+) inherits aerospike::params {
   include aerospike::irqbalance
   include aerospike::service
 

@@ -9,7 +9,6 @@
 # https://forge.puppetlabs.com/puppet/archive
 #
 class aerospike::amc {
-
   include archive
 
   # On the amc, some elements are changing depending on the os familly
@@ -59,10 +58,10 @@ class aerospike::amc {
   # For now only the packages that are not tarballs are installed.
   if $amc_pkg_provider != undef {
     ensure_packages("aerospike-amc-${aerospike::edition}", {
-      ensure   => latest,
-      provider => $amc_pkg_provider,
-      source   => $amc_dest,
-      require  => [ Archive[$amc_target_archive], ],
+        ensure   => latest,
+        provider => $amc_pkg_provider,
+        source   => $amc_dest,
+        require  => [Archive[$amc_target_archive],],
     })
   } else {
     fail('Installation of the amc via tarball not yet supported by this module.')
