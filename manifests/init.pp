@@ -53,6 +53,8 @@
 # @param device
 # @param udf_path
 # @param manage_udf
+# @param arch
+#   hw architecture
 class aerospike (
   Boolean              $asinstall                = true,
   String               $version                  = '5.7.0.11',
@@ -129,6 +131,7 @@ class aerospike (
   Optional[String]     $tools_version          = undef,
   Optional[String]     $tools_download_url     = undef,
   Stdlib::Absolutepath $tools_download_dir     = '/usr/local/src',
+  String               $arch                   = 'x86_64',
   Boolean              $disable_irqbalance     = false,
   Optional[String]     $device                 = undef,
   Stdlib::Absolutepath $udf_path               = '/opt/aerospike/usr/udf/lua',

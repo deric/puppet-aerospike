@@ -105,11 +105,18 @@ class aerospike::install {
   # Installation of aerospike tools
   # #######################################
   if $aerospike::tools_version {
+    if versioncmp($aerospike::tools_version, '8.0.0') > 0 {
+      $download_uri = "https://download.aerospike.com/artifacts/aerospike-tools/${aerospike::tools_version}/aerospike-tools-${aerospike::tools_version}-${aerospike::target_os_tag}_${aerospike::arch}.tgz"
+      $dest_tools = "${aerospike::tools_download_dir}/aerospike-tools-${aerospike::tools_version}-${aerospike::target_os_tag}_${aerospike::arch}"
+    } else {
+      $download_uri = "https://download.aerospike.com/artifacts/aerospike-tools/${aerospike::tools_version}/aerospike-tools-${aerospike::tools_version}-${aerospike::target_os_tag}.tgz"
+      $dest_tools = "${aerospike::tools_download_dir}/aerospike-tools-${aerospike::tools_version}-${aerospike::target_os_tag}"
+    }
+
     $src_tools = $aerospike::tools_download_url ? {
-      undef   => "https://download.aerospike.com/artifacts/aerospike-tools/${aerospike::tools_version}/aerospike-tools-${aerospike::tools_version}-${aerospike::target_os_tag}.tgz",
+      undef   => $download_uri,
       default => $aerospike::tools_download_url,
     }
-    $dest_tools = "${aerospike::tools_download_dir}/aerospike-tools-${aerospike::tools_version}-${aerospike::target_os_tag}"
 
     archive { "${dest_tools}.tgz":
       ensure       => present,
