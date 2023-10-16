@@ -4,9 +4,7 @@
 # your aerospike cluster.
 #
 class aerospike::irqbalance {
-
   if $aerospike::disable_irqbalance {
-
     file_line { 'irqbalance':
       line   => 'IRQBALANCE_ARGS="--policyscript=/etc/aerospike/irqbalance-ban.sh"',
       path   => '/etc/default/irqbalance',
@@ -20,5 +18,4 @@ class aerospike::irqbalance {
       hasstatus  => true,
     }
   }
-
 }

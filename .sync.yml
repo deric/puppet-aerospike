@@ -1,8 +1,35 @@
-# This file can be used to customize the files managed by PDK.
-#
-# See https://github.com/puppetlabs/pdk-templates/blob/main/README.md
-# for more information.
-#
-# See https://github.com/puppetlabs/pdk-templates/blob/main/config_defaults.yml
-# for the default values.
---- {}
+---
+appveyor.yml:
+  delete: true
+.editorconfig:
+  unmanaged: true
+.github/CONTRIBUTING.md:
+  delete: true
+.github/ISSUE_TEMPLATE.md:
+  delete: true
+.github/PULL_REQUEST_TEMPLATE.md:
+  delete: true
+.gitlab-ci.yml:
+  delete: true
+.gitignore:
+  paths:
+    - '/.vscode/'
+    - '/.devcontainer/'
+.travis.yml:
+  delete: true
+
+spec/spec_helper.rb:
+  coverage_report: true
+
+Gemfile:
+  optional:
+    ':acceptance':
+      - gem: beaker
+      - gem: beaker-rspec
+      - gem: beaker-docker
+      - gem: beaker-puppet_install_helper
+      - gem: beaker-module_install_helper
+      - gem: 'voxpupuli-acceptance'
+    ':release':
+      - gem: 'puppet-blacksmith'
+
