@@ -106,7 +106,7 @@ class aerospike::install {
   # #######################################
   if $aerospike::tools_version {
     if versioncmp($aerospike::tools_version, '8.0.0') > 0 {
-      $download_uri = "https://download.aerospike.com/artifacts/aerospike-tools/${aerospike::tools_version}/aerospike-tools-${aerospike::tools_version}-${aerospike::target_os_tag}_${aerospike::arch}.tgz"
+      $download_uri = "https://download.aerospike.com/artifacts/aerospike-tools/${aerospike::tools_version}/aerospike-tools_${aerospike::tools_version}_${aerospike::target_os_tag}_${aerospike::arch}.tgz"
       $dest_tools = "${aerospike::tools_download_dir}/aerospike-tools-${aerospike::tools_version}-${aerospike::target_os_tag}_${aerospike::arch}"
     } else {
       $download_uri = "https://download.aerospike.com/artifacts/aerospike-tools/${aerospike::tools_version}/aerospike-tools-${aerospike::tools_version}-${aerospike::target_os_tag}.tgz"
