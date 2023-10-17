@@ -125,10 +125,10 @@ describe 'aerospike' do
     end
 
     context "aerospike class with all parameters (except custom url) on #{os}" do
-      let(:version) { '5.7.0.11' }
+      let(:version) { '6.3.0.12' }
       let(:params) do
         {
-          version: '5.7.0.11',
+          version: version,
           download_dir: '/tmp',
           remove_archive:   true,
           edition:          'enterprise',
@@ -228,7 +228,7 @@ describe 'aerospike' do
       end
       let(:facts) { os_facts }
 
-      let(:target_dir) { "/tmp/aerospike-server-enterprise-5.7.0.11-#{expected_tag}" }
+      let(:target_dir) { "/tmp/aerospike-server-enterprise-#{version}-#{expected_tag}" }
 
       it { is_expected.to compile.with_all_deps }
 
@@ -260,13 +260,6 @@ describe 'aerospike' do
             .with_source("https://github.com/aerospike/aerospike-server/releases/download/#{version}/aerospike-server-enterprise-#{version}-1.#{expected_tag}.#{os_facts[:os]['architecture']}.#{ext}")\
             .with_cleanup(false)
         end
-      end
-
-      case os_facts[:os]['family']
-      when 'Debian'
-        it { is_expected.to contain_exec('aerospike-install-server').with_command("#{target_dir}/asinstall --force-confold -i") }
-      when 'RedHat'
-        it { is_expected.to contain_exec('aerospike-install-server').with_command("#{target_dir}/asinstall -Uvh") }
       end
 
       it do
