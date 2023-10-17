@@ -216,7 +216,7 @@ describe 'aerospike' do
           .with_ensure('present')\
           .with_uid(511)\
           .with_gid('as_group')\
-          .with_shell('/bin/bash')
+          .with_shell('/usr/sbin/nologin')
       end
 
       it do
