@@ -9,6 +9,9 @@
 #
 # @param asinstall
 # @param version
+#   aerospike version
+# @param package_ensure
+#  e.g. `installed|latest`, default: latest
 # @param download_dir
 # @param download_url
 # @param remove_archive
@@ -58,6 +61,7 @@
 class aerospike (
   Boolean              $asinstall                = true,
   String               $version                  = '5.7.0.11',
+  Optional[String]     $package_ensure           = undef,
   Stdlib::Absolutepath $download_dir             = '/usr/local/src',
   Optional[String]     $download_url             = undef,
   Boolean              $remove_archive           = false,
