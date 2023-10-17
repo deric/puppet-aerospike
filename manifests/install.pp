@@ -130,7 +130,6 @@ class aerospike::install {
     } ~> exec { 'aerospike-install-tools':
       command     => "${dest_tools}/asinstall",
       cwd         => $dest_tools,
-      refreshonly => true,
     }
   }
 
