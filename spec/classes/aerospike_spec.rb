@@ -3,11 +3,11 @@ require 'spec_helper'
 describe 'aerospike' do
   on_supported_os.each do |os, os_facts|
     case os
-    when /^centos-/, /^oraclelinux-/, /^redhat-/
+    when %r{^centos-}, %r{^oraclelinux-}, %r{^redhat-}
       expected_tag = "el#{os_facts[:os]['release']['major']}"
-    when /^ubuntu/
+    when %r{^ubuntu}
       expected_tag = "ubuntu#{os_facts[:os]['release']['full']}"
-    when /debian-/
+    when %r{debian-}
       expected_tag = "debian#{os_facts[:os]['release']['major']}"
     end
 
@@ -41,7 +41,7 @@ describe 'aerospike' do
       it { is_expected.to contain_service('aerospike').with_ensure('running') }
     end
 
-  # #####################################################################
+    # #####################################################################
     # Tests with just custom urls (specific case)
     # #####################################################################
     context "aerospike class with custom url on #{os}" do
@@ -331,7 +331,7 @@ describe 'aerospike' do
     end
   end
 
-  context "aerospike class with github deb package on Debian 10" do
+  context 'aerospike class with github deb package on Debian 10' do
     let(:params) do
       {
         version: '5.7.0.16',
@@ -370,7 +370,7 @@ describe 'aerospike' do
     }
   end
 
-  describe "aerospike class with github rpm package on RedHat 8" do
+  describe 'aerospike class with github rpm package on RedHat 8' do
     let(:params) do
       {
         version: '5.7.0.16',
@@ -409,10 +409,7 @@ describe 'aerospike' do
     }
   end
 
-
-  shared_examples 'supported_os' do |osfamily, dist, majrelease, expected_tag|
-
-
+  shared_examples 'supported_os' do |osfamily, dist, majrelease, _expected_tag|
     # #####################################################################
     # Test with every parameter (except the custom urls covered earlier)
     # #####################################################################
