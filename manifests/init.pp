@@ -137,9 +137,12 @@ class aerospike (
   Stdlib::Absolutepath $udf_path               = '/opt/aerospike/usr/udf/lua',
   Boolean              $manage_udf             = false,
 ) {
+  include aerospike::irqbalance
+  include aerospike::service
+
   if $asinstall {
-    contain aerospike::install
-    contain aerospike::config
+    include aerospike::install
+    include aerospike::config
 
     Class['aerospike::install'] -> Class['aerospike::config'] -> Class['aerospike::service']
 
@@ -152,7 +155,4 @@ class aerospike (
     include aerospike::amc
     Class['aerospike::amc'] -> Class['aerospike::service']
   }
-
-  include aerospike::irqbalance
-  include aerospike::service
 }
