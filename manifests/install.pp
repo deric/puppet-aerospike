@@ -95,7 +95,7 @@ class aerospike::install {
       ensure  => present,
       uid     => $aerospike::system_uid,
       gid     => $aerospike::system_group,
-      shell   => '/bin/bash',
+      shell   => '/usr/sbin/nologin',
       require => Group[$aerospike::system_group],
     }
   )
