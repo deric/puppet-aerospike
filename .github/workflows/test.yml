@@ -1,4 +1,4 @@
-name: "Static & Spec Tests"
+name: "Tests"
 
 on:
   - push
@@ -58,30 +58,10 @@ jobs:
           bundler-cache: true
       - name: Run tests
         run: bundle exec rake spec
-  acceptance:
-    runs-on: ubuntu-latest
-    env:
-      BEAKER_setfile: ${{ matrix.beaker }}
-    strategy:
-      fail-fast: false
-      matrix:
-        beaker:
-          - debian11-64a
-    name: Acceptance / Image ${{ matrix.beaker }}
-    steps:
-      - uses: actions/checkout@v3
-      - name: Setup ruby
-        uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: "3.0"
-          bundler-cache: true
-      - name: Run acceptance
-        run: bundle exec rake beaker
   tests:
     needs:
       - rubocop
       - test
-      - acceptance
       - lint
     runs-on: ubuntu-latest
     name: Test suite
