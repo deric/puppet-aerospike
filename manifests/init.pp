@@ -136,7 +136,7 @@ class aerospike (
   Optional[String]     $device                 = undef,
   Stdlib::Absolutepath $udf_path               = '/opt/aerospike/usr/udf/lua',
   Boolean              $manage_udf             = false,
-) inherits aerospike::params {
+) {
   if $asinstall {
     contain aerospike::install
     contain aerospike::config

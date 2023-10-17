@@ -76,94 +76,8 @@ describe 'aerospike' do
         it { is_expected.to contain_exec('aerospike-install-server').with_command("#{target_dir}/asinstall -Uvh") }
       end
     end
-  end
 
-  context "aerospike class with github deb package on Debian 10" do
-    let(:params) do
-      {
-        version: '5.7.0.16',
-        target_os_tag: 'debian10',
-        download_url: 'https://github.com/aerospike/aerospike-server/releases/download/5.7.0.16/aerospike-server-community-5.7.0.16.debian10.x86_64.deb',
-      }
-    end
-    let(:facts) do
-      {
-        osfamily: 'Debian',
-        os: {
-          family: 'Debian',
-          name: 'Debian',
-          architecture: 'amd64',
-          release: { major: '10' },
-        },
-      }
-    end
-    let(:target_file) { '/usr/local/src/aerospike-server-community-5.7.0.16-debian10.deb' }
-
-    it { is_expected.to compile.with_all_deps }
-
-    it do
-      is_expected.to contain_archive(target_file)\
-        .with_ensure('present')\
-        .with_source('https://github.com/aerospike/aerospike-server/releases/download/5.7.0.16/aerospike-server-community-5.7.0.16.debian10.x86_64.deb')\
-        .with_extract(false)\
-        .with_cleanup(false)\
-        .that_notifies('Package[aerospike-server-community]')
-    end
-
-    it {
-      is_expected.to contain_package('aerospike-server-community')\
-        .with_ensure(%r{installed|present})\
-        .with_source('/usr/local/src/aerospike-server-community-5.7.0.16-debian10.deb')
-    }
-  end
-
-  describe "aerospike class with github rpm package on RedHat 8" do
-    let(:params) do
-      {
-        version: '5.7.0.16',
-        target_os_tag: 'el8',
-        download_url: 'https://github.com/aerospike/aerospike-server/releases/download/5.7.0.16/aerospike-server-community-5.7.0.16-1.el8.x86_64.rpm',
-      }
-    end
-    let(:facts) do
-      {
-        osfamily: 'RedHat',
-        os: {
-          family: 'RedHat',
-          name: 'RedHat',
-          architecture: 'amd64',
-          release: { major: '8' },
-        },
-      }
-    end
-    let(:target_file) { '/usr/local/src/aerospike-server-community-5.7.0.16-el8.rpm' }
-
-    it { is_expected.to compile.with_all_deps }
-
-    it do
-      is_expected.to contain_archive(target_file)\
-        .with_ensure('present')\
-        .with_source('https://github.com/aerospike/aerospike-server/releases/download/5.7.0.16/aerospike-server-community-5.7.0.16-1.el8.x86_64.rpm')\
-        .with_extract(false)\
-        .with_cleanup(false)\
-        .that_notifies('Package[aerospike-server-community]')
-    end
-
-    it {
-      is_expected.to contain_package('aerospike-server-community')\
-        .with_ensure(%r{installed|present})\
-        .with_source('/usr/local/src/aerospike-server-community-5.7.0.16-el8.rpm')
-    }
-  end
-
-
-  shared_examples 'supported_os' do |osfamily, dist, majrelease, expected_tag|
-
-
-    # #####################################################################
-    # Test with every parameter (except the custom urls covered earlier)
-    # #####################################################################
-    describe "aerospike class with all parameters (except custom url) on #{osfamily}, #{majrelease}" do
+    context "aerospike class with all parameters (except custom url) on #{os}" do
       let(:params) do
         {
           version: '5.7.0.11',
@@ -264,17 +178,7 @@ describe 'aerospike' do
           service_status: 'stopped',
         }
       end
-      let(:facts) do
-        {
-          osfamily: osfamily,
-          os: {
-            family: osfamily,
-            name: dist,
-            architecture: 'amd64',
-            release: { major: majrelease },
-          },
-        }
-      end
+      let(:facts) { os_facts }
 
       let(:target_dir) { "/tmp/aerospike-server-enterprise-5.7.0.11-#{expected_tag}" }
 
@@ -300,7 +204,7 @@ describe 'aerospike' do
           .that_notifies('Exec[aerospike-install-server]')
       end
 
-      case osfamily
+      case os_facts[:os]['family']
       when 'Debian'
         it { is_expected.to contain_exec('aerospike-install-server').with_command("#{target_dir}/asinstall --force-confold -i") }
       when 'RedHat'
@@ -397,6 +301,121 @@ describe 'aerospike' do
           .with_provider('init')
       end
     end
+
+    context "aerospike class with all tools-related parameters on #{os}" do
+      let(:params) do
+        {
+          tools_version: '3.16.0',
+          tools_download_url: "https://my_fileserver.example.com/aerospike-tools/aerospike-tools-3.16.0-#{expected_tag}.tgz",
+          tools_download_dir: '/tmp',
+        }
+      end
+      let(:facts) { os_facts }
+
+      let(:target_dir) { "/tmp/aerospike-tools-3.16.0-#{expected_tag}" }
+
+      it { is_expected.to compile.with_all_deps }
+
+      it do
+        is_expected.to contain_archive("/tmp/aerospike-tools-3.16.0-#{expected_tag}.tgz")\
+          .with_ensure('present')\
+          .with_source("https://my_fileserver.example.com/aerospike-tools/aerospike-tools-3.16.0-#{expected_tag}.tgz")\
+          .with_extract(true)\
+          .with_extract_path('/tmp')\
+          .with_creates(target_dir)\
+          .with_cleanup(false)\
+          .that_notifies('Exec[aerospike-install-tools]')
+      end
+
+      it { is_expected.to contain_exec('aerospike-install-tools').with_command("#{target_dir}/asinstall") }
+    end
+  end
+
+  context "aerospike class with github deb package on Debian 10" do
+    let(:params) do
+      {
+        version: '5.7.0.16',
+        target_os_tag: 'debian10',
+        download_url: 'https://github.com/aerospike/aerospike-server/releases/download/5.7.0.16/aerospike-server-community-5.7.0.16.debian10.x86_64.deb',
+      }
+    end
+    let(:facts) do
+      {
+        osfamily: 'Debian',
+        os: {
+          family: 'Debian',
+          name: 'Debian',
+          architecture: 'amd64',
+          release: { major: '10' },
+        },
+      }
+    end
+    let(:target_file) { '/usr/local/src/aerospike-server-community-5.7.0.16-debian10.deb' }
+
+    it { is_expected.to compile.with_all_deps }
+
+    it do
+      is_expected.to contain_archive(target_file)\
+        .with_ensure('present')\
+        .with_source('https://github.com/aerospike/aerospike-server/releases/download/5.7.0.16/aerospike-server-community-5.7.0.16.debian10.x86_64.deb')\
+        .with_extract(false)\
+        .with_cleanup(false)\
+        .that_notifies('Package[aerospike-server-community]')
+    end
+
+    it {
+      is_expected.to contain_package('aerospike-server-community')\
+        .with_ensure(%r{installed|present})\
+        .with_source('/usr/local/src/aerospike-server-community-5.7.0.16-debian10.deb')
+    }
+  end
+
+  describe "aerospike class with github rpm package on RedHat 8" do
+    let(:params) do
+      {
+        version: '5.7.0.16',
+        target_os_tag: 'el8',
+        download_url: 'https://github.com/aerospike/aerospike-server/releases/download/5.7.0.16/aerospike-server-community-5.7.0.16-1.el8.x86_64.rpm',
+      }
+    end
+    let(:facts) do
+      {
+        osfamily: 'RedHat',
+        os: {
+          family: 'RedHat',
+          name: 'RedHat',
+          architecture: 'amd64',
+          release: { major: '8' },
+        },
+      }
+    end
+    let(:target_file) { '/usr/local/src/aerospike-server-community-5.7.0.16-el8.rpm' }
+
+    it { is_expected.to compile.with_all_deps }
+
+    it do
+      is_expected.to contain_archive(target_file)\
+        .with_ensure('present')\
+        .with_source('https://github.com/aerospike/aerospike-server/releases/download/5.7.0.16/aerospike-server-community-5.7.0.16-1.el8.x86_64.rpm')\
+        .with_extract(false)\
+        .with_cleanup(false)\
+        .that_notifies('Package[aerospike-server-community]')
+    end
+
+    it {
+      is_expected.to contain_package('aerospike-server-community')\
+        .with_ensure(%r{installed|present})\
+        .with_source('/usr/local/src/aerospike-server-community-5.7.0.16-el8.rpm')
+    }
+  end
+
+
+  shared_examples 'supported_os' do |osfamily, dist, majrelease, expected_tag|
+
+
+    # #####################################################################
+    # Test with every parameter (except the custom urls covered earlier)
+    # #####################################################################
 
     # #####################################################################
     # Tests creating a file with XDR credentials
@@ -531,8 +550,8 @@ describe 'aerospike' do
   context 'supported operating systems - aerospike-server-related tests' do
     # execute shared tests on various distributions
     # parameters :                  osfamily, dist, majrelease, expected_tag
-    it_behaves_like 'supported_os', 'Debian', 'Debian', '8', 'debian8'
-    it_behaves_like 'supported_os', 'Debian', 'Ubuntu', '18.04', 'ubuntu18.04'
+    it_behaves_like 'supported_os', 'Debian', 'Debian', '10', 'debian10'
+    it_behaves_like 'supported_os', 'Debian', 'Ubuntu', '20.04', 'ubuntu20.04'
     it_behaves_like 'supported_os', 'RedHat', 'RedHat', '7', 'el7'
   end
 
@@ -597,12 +616,12 @@ describe 'aerospike' do
           family: 'Debian',
           name: 'Debian',
           architecture: 'amd64',
-          release: { major: '8' },
+          release: { major: '10' },
         },
       }
     end
 
-    let(:target_dir) { '/usr/local/src/aerospike-server-community-5.7.0.11-debian8' }
+    let(:target_dir) { '/usr/local/src/aerospike-server-community-5.7.0.11-debian10' }
 
     it { is_expected.to compile.with_all_deps }
     it { is_expected.to contain_class('aerospike::install').that_comes_before('Class[aerospike::config]') }
@@ -610,59 +629,6 @@ describe 'aerospike' do
     it { is_expected.to create_file('/etc/aerospike/aerospike.conf') }
 
     it { is_expected.to contain_exec('aerospike-install-server').with_command("#{target_dir}/asinstall --force-confnew -i") }
-  end
-
-  shared_examples 'tools-related' do |osfamily, dist, majrelease, expected_tag|
-    # #####################################################################
-    # Tests related to aerospike tools
-    # #####################################################################
-    describe "aerospike class with all tools-related parameters on #{osfamily}" do
-      let(:params) do
-        {
-          tools_version: '3.16.0',
-          tools_download_url: "https://my_fileserver.example.com/aerospike-tools/aerospike-tools-3.16.0-#{expected_tag}.tgz",
-          tools_download_dir: '/tmp',
-        }
-      end
-      let(:facts) do
-        {
-          osfamily: osfamily,
-          os: {
-            family: osfamily,
-            name: dist,
-            architecture: 'amd64',
-            release: { major: majrelease },
-          },
-        }
-      end
-
-      let(:target_dir) { "/tmp/aerospike-tools-3.16.0-#{expected_tag}" }
-
-      it { is_expected.to compile.with_all_deps }
-
-      it do
-        is_expected.to contain_archive("/tmp/aerospike-tools-3.16.0-#{expected_tag}.tgz")\
-          .with_ensure('present')\
-          .with_source("https://my_fileserver.example.com/aerospike-tools/aerospike-tools-3.16.0-#{expected_tag}.tgz")\
-          .with_extract(true)\
-          .with_extract_path('/tmp')\
-          .with_creates(target_dir)\
-          .with_cleanup(false)\
-          .that_notifies('Exec[aerospike-install-tools]')
-      end
-
-      it { is_expected.to contain_exec('aerospike-install-tools').with_command("#{target_dir}/asinstall") }
-    end
-  end
-
-  context 'supported operating systems - tools-related tests' do
-    # execute shared tests on various distributions
-    # parameters :                  osfamily, dist, majrelease
-    it_behaves_like 'tools-related', 'Debian', 'Debian', '10', 'debian10'
-    it_behaves_like 'tools-related', 'Debian', 'Debian', '9', 'debian9'
-    it_behaves_like 'tools-related', 'Debian', 'Debian', '8', 'debian8'
-    it_behaves_like 'tools-related', 'Debian', 'Ubuntu', '18.04', 'ubuntu18.04'
-    it_behaves_like 'tools-related', 'RedHat', 'RedHat', '7', 'el7'
   end
 
   shared_examples 'amc-related' do |osfamily, dist, majrelease|
