@@ -11,6 +11,11 @@
 class aerospike::install {
   include archive
 
+  $_package_version = $aerospike::package_ensure ? {
+    undef   => latest,
+    default => $aerospike::package_ensure
+  }
+
   # #######################################
   # Installation of aerospike server
   # #######################################
@@ -45,7 +50,7 @@ class aerospike::install {
         extract  => false,
         cleanup  => $aerospike::remove_archive,
       } ~> package { "aerospike-server-${aerospike::edition}":
-        ensure   => latest,
+        ensure   => $_package_version,
         provider => 'dpkg',
         source   => "${dest}.deb",
       }
@@ -59,7 +64,7 @@ class aerospike::install {
         extract  => false,
         cleanup  => $aerospike::remove_archive,
       } ~> package { "aerospike-server-${aerospike::edition}":
-        ensure   => latest,
+        ensure   => $_package_version,
         provider => 'rpm',
         source   => "${dest}.rpm",
       }
