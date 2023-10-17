@@ -1,0 +1,2 @@
+---
+aerospike::target_os_tag: ubuntu22.04

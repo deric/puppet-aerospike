@@ -62,7 +62,7 @@ class aerospike (
   Optional[String]     $download_url             = undef,
   Boolean              $remove_archive           = false,
   String               $edition                  = 'community',
-  String               $target_os_tag            = $aerospike::params::target_os_tag,
+  Optional[String]     $target_os_tag            = undef,
   Optional[String]     $download_user            = undef,
   Optional[String]     $download_pass            = undef,
   Optional[String]     $asinstall_params         = undef,
@@ -137,12 +137,9 @@ class aerospike (
   Stdlib::Absolutepath $udf_path               = '/opt/aerospike/usr/udf/lua',
   Boolean              $manage_udf             = false,
 ) inherits aerospike::params {
-  include aerospike::irqbalance
-  include aerospike::service
-
   if $asinstall {
-    include aerospike::install
-    include aerospike::config
+    contain aerospike::install
+    contain aerospike::config
 
     Class['aerospike::install'] -> Class['aerospike::config'] -> Class['aerospike::service']
 
@@ -155,4 +152,7 @@ class aerospike (
     include aerospike::amc
     Class['aerospike::amc'] -> Class['aerospike::service']
   }
+
+  include aerospike::irqbalance
+  include aerospike::service
 }

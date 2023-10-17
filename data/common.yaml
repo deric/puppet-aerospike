@@ -1,1 +1,4 @@
---- {}
+---
+aerospike::logging_target: console
+#aerospike::config_logging:
+#  logging_target: ['any info',],
