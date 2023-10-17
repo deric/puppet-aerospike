@@ -45,7 +45,7 @@ class aerospike::install {
         extract  => false,
         cleanup  => $aerospike::remove_archive,
       } ~> package { "aerospike-server-${aerospike::edition}":
-        ensure   => installed,
+        ensure   => latest,
         provider => 'dpkg',
         source   => "${dest}.deb",
       }
@@ -59,7 +59,7 @@ class aerospike::install {
         extract  => false,
         cleanup  => $aerospike::remove_archive,
       } ~> package { "aerospike-server-${aerospike::edition}":
-        ensure   => installed,
+        ensure   => latest,
         provider => 'rpm',
         source   => "${dest}.rpm",
       }

@@ -365,7 +365,7 @@ describe 'aerospike' do
 
     it {
       is_expected.to contain_package('aerospike-server-community')\
-        .with_ensure(%r{installed|present})\
+        .with_ensure(%r{latest})\
         .with_source('/usr/local/src/aerospike-server-community-5.7.0.16-debian10.deb')
     }
   end
@@ -404,7 +404,7 @@ describe 'aerospike' do
 
     it {
       is_expected.to contain_package('aerospike-server-community')\
-        .with_ensure(%r{installed|present})\
+        .with_ensure(%r{latest})\
         .with_source('/usr/local/src/aerospike-server-community-5.7.0.16-el8.rpm')
     }
   end
