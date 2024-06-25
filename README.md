@@ -45,7 +45,7 @@ To install, just use the following, puppet software will take care of puling the
 dependencies:
 
 ```shell
-puppet module install TubeMogul/aerospike
+puppet module install deric/aerospike
 ```
 
 If you are working on a version not coming from the forge but directly from the
