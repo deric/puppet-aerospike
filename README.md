@@ -1,6 +1,6 @@
 # Aerospike Puppet module
 
-[![TravisBuild](https://travis-ci.org/deric/puppet-aerospike.svg?branch=master)](https://travis-ci.org/deric/puppet-aerospike)
+[![Tests](https://github.com/deric/puppet-aerospike/actions/workflows/test.yml/badge.svg)](https://github.com/deric/puppet-aerospike/actions/workflows/test.yml)
 [![Puppet Forge latest release](https://img.shields.io/puppetforge/v/deric/aerospike.svg)](https://forge.puppetlabs.com/deric/aerospike)
 [![Puppet Forge downloads](https://img.shields.io/puppetforge/dt/deric/aerospike.svg)](https://forge.puppetlabs.com/deric/aerospike)
 [![Puppet Forge score](https://img.shields.io/puppetforge/f/deric/aerospike.svg)](https://forge.puppetlabs.com/deric/aerospike/scores)

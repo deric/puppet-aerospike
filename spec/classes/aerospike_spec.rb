@@ -24,8 +24,14 @@ describe 'aerospike' do
 
       # Tests related to the aerospike::install class
       it { is_expected.to contain_class('archive') }
-      it { is_expected.to contain_archive("/usr/local/src/aerospike-server-community-5.7.0.11-#{expected_tag}.tgz") }
-      it { is_expected.to contain_exec('aerospike-install-server') }
+      it { is_expected.to contain_package('aerospike-server-community') }
+      case os_facts[:os]['family']
+      when 'Debian'
+        ext = 'deb'
+      when 'RedHat'
+        ext = 'rpm'
+      end
+      it { is_expected.to contain_archive("/usr/local/src/aerospike-server-community-5.7.0.11-#{expected_tag}.#{ext}") }
       it { is_expected.to contain_user('root') }
       it { is_expected.to contain_group('root') }
 
@@ -41,9 +47,49 @@ describe 'aerospike' do
       it { is_expected.to contain_service('aerospike').with_ensure('running') }
     end
 
-    # #####################################################################
-    # Tests with just custom urls (specific case)
-    # #####################################################################
+    context "with 6.4.0.4 version on #{os}" do
+      let(:facts) { os_facts }
+      let(:version) { '6.4.0.4' }
+      let(:target_dir) { "/usr/local/src/aerospike-server-enterprise-5.7.0.11-#{expected_tag}" }
+      let(:params) do
+        {
+          version: version,
+          remove_archive: false,
+        }
+      end
+
+      it { is_expected.to compile.with_all_deps }
+
+      it { is_expected.to contain_class('aerospike') }
+      it { is_expected.to contain_class('aerospike::config') }
+
+      it { is_expected.to contain_class('archive') }
+
+      case os_facts[:os]['family']
+      when 'Debian'
+        ext = 'deb'
+        it do
+          is_expected.to contain_archive("/usr/local/src/aerospike-server-community-#{version}-#{expected_tag}.#{ext}")\
+            .with_ensure('present')\
+            .with_source("https://github.com/aerospike/aerospike-server/releases/download/#{version}/aerospike-server-community_#{version}-1#{expected_tag}_#{os_facts[:os]['architecture']}.#{ext}")\
+            .with_cleanup(false)
+        end
+      when 'RedHat'
+        ext = 'rpm'
+        it do
+          # e.g.
+          #  https://github.com/aerospike/aerospike-server/releases/download/6.4.0.4/aerospike-server-community_6.4.0.4-1.el7.x86_64.rpm
+          #  https://github.com/aerospike/aerospike-server/releases/download/6.4.0.4/aerospike-server-community-6.4.0.4-1.el7.x86_64.rpm
+          is_expected.to contain_archive("/usr/local/src/aerospike-server-community-#{version}-#{expected_tag}.#{ext}")\
+            .with_ensure('present')\
+            .with_source("https://github.com/aerospike/aerospike-server/releases/download/#{version}/aerospike-server-community-#{version}-1.#{expected_tag}.#{os_facts[:os]['architecture']}.#{ext}")\
+            .with_cleanup(false)
+        end
+      end
+
+      it { is_expected.to contain_archive("/usr/local/src/aerospike-server-community-#{version}-#{expected_tag}.#{ext}") }
+    end
+
     context "aerospike class with custom url on #{os}" do
       let(:params) do
         {
@@ -78,9 +124,10 @@ describe 'aerospike' do
     end
 
     context "aerospike class with all parameters (except custom url) on #{os}" do
+      let(:version) { '6.3.0.12' }
       let(:params) do
         {
-          version: '5.7.0.11',
+          version: version,
           download_dir: '/tmp',
           remove_archive:   true,
           edition:          'enterprise',
@@ -180,7 +227,7 @@ describe 'aerospike' do
       end
       let(:facts) { os_facts }
 
-      let(:target_dir) { "/tmp/aerospike-server-enterprise-5.7.0.11-#{expected_tag}" }
+      let(:target_dir) { "/tmp/aerospike-server-enterprise-#{version}-#{expected_tag}" }
 
       it { is_expected.to compile.with_all_deps }
 
@@ -190,25 +237,27 @@ describe 'aerospike' do
       it { is_expected.to contain_class('aerospike::config') }
       it { is_expected.to contain_class('aerospike::service').that_subscribes_to('Class[aerospike::config]') }
 
-      # Tests related to the aerospike::install class
-      it do
-        is_expected.to contain_archive("/tmp/aerospike-server-enterprise-5.7.0.11-#{expected_tag}.tgz")\
-          .with_ensure('present')\
-          .with_source("http://www.aerospike.com/artifacts/aerospike-server-enterprise/5.7.0.11/aerospike-server-enterprise-5.7.0.11-#{expected_tag}.tgz")\
-          .with_username('dummy_user')\
-          .with_password('dummy_password')\
-          .with_extract(true)\
-          .with_extract_path('/tmp')\
-          .with_creates(target_dir)\
-          .with_cleanup(true)\
-          .that_notifies('Exec[aerospike-install-server]')
-      end
-
       case os_facts[:os]['family']
       when 'Debian'
-        it { is_expected.to contain_exec('aerospike-install-server').with_command("#{target_dir}/asinstall --force-confold -i") }
+        ext = 'deb'
+        it do
+          is_expected.to contain_archive("/tmp/aerospike-server-enterprise-#{version}-#{expected_tag}.#{ext}")\
+            .with_ensure('present')\
+            .with_username('dummy_user')\
+            .with_password('dummy_password')\
+            .with_source("https://github.com/aerospike/aerospike-server/releases/download/#{version}/aerospike-server-enterprise_#{version}-1#{expected_tag}_#{os_facts[:os]['architecture']}.#{ext}")\
+            .with_cleanup(true)
+        end
       when 'RedHat'
-        it { is_expected.to contain_exec('aerospike-install-server').with_command("#{target_dir}/asinstall -Uvh") }
+        ext = 'rpm'
+        it do
+          is_expected.to contain_archive("/tmp/aerospike-server-enterprise-#{version}-#{expected_tag}.#{ext}")\
+            .with_ensure('present')\
+            .with_username('dummy_user')\
+            .with_password('dummy_password')\
+            .with_source("https://github.com/aerospike/aerospike-server/releases/download/#{version}/aerospike-server-enterprise-#{version}-1.#{expected_tag}.#{os_facts[:os]['architecture']}.#{ext}")\
+            .with_cleanup(true)
+        end
       end
 
       it do
@@ -605,7 +654,13 @@ describe 'aerospike' do
   end
 
   describe 'allow modifying asinstall parameters' do
-    let(:params) { { asinstall_params: '--force-confnew -i' } }
+    let(:params) do
+      {
+        version: '7.1.0.2',
+        asinstall_params: '--force-confnew -i',
+        download_url: 'https://github.com/aerospike/aerospike-server/archive/refs/tags/7.1.0.2.tar.gz',
+      }
+    end
     let(:facts) do
       {
         osfamily: 'Debian',
@@ -618,7 +673,7 @@ describe 'aerospike' do
       }
     end
 
-    let(:target_dir) { '/usr/local/src/aerospike-server-community-5.7.0.11-debian10' }
+    let(:target_dir) { '/usr/local/src/aerospike-server-community-7.1.0.2-debian10' }
 
     it { is_expected.to compile.with_all_deps }
     it { is_expected.to contain_class('aerospike::install').that_comes_before('Class[aerospike::config]') }
