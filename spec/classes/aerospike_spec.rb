@@ -24,14 +24,7 @@ describe 'aerospike' do
 
       # Tests related to the aerospike::install class
       it { is_expected.to contain_class('archive') }
-      case os_facts[:os]['family']
-      when 'Debian'
-        ext = 'deb'
-        it { is_expected.to contain_package('aerospike-server-community') }
-      when 'RedHat'
-        ext = 'rpm'
-        it { is_expected.to contain_package('aerospike-server-community') }
-      end
+      it { is_expected.to contain_package('aerospike-server-community') }
       it { is_expected.to contain_archive("/usr/local/src/aerospike-server-community-5.7.0.11-#{expected_tag}.#{ext}") }
       it { is_expected.to contain_user('root') }
       it { is_expected.to contain_group('root') }
@@ -50,9 +43,6 @@ describe 'aerospike' do
 
     context "with 6.4.0.4 version on #{os}" do
       let(:facts) { os_facts }
-
-      it { is_expected.to compile.with_all_deps }
-
       let(:version) { '6.4.0.4' }
       let(:target_dir) { "/usr/local/src/aerospike-server-enterprise-5.7.0.11-#{expected_tag}" }
       let(:params) do
@@ -61,6 +51,8 @@ describe 'aerospike' do
           remove_archive: false,
         }
       end
+
+      it { is_expected.to compile.with_all_deps }
 
       it { is_expected.to contain_class('aerospike') }
       it { is_expected.to contain_class('aerospike::config') }
@@ -80,8 +72,8 @@ describe 'aerospike' do
         ext = 'rpm'
         it do
           # e.g.
-              #  https://github.com/aerospike/aerospike-server/releases/download/6.4.0.4/aerospike-server-community_6.4.0.4-1.el7.x86_64.rpm
-              #  https://github.com/aerospike/aerospike-server/releases/download/6.4.0.4/aerospike-server-community-6.4.0.4-1.el7.x86_64.rpm
+          #  https://github.com/aerospike/aerospike-server/releases/download/6.4.0.4/aerospike-server-community_6.4.0.4-1.el7.x86_64.rpm
+          #  https://github.com/aerospike/aerospike-server/releases/download/6.4.0.4/aerospike-server-community-6.4.0.4-1.el7.x86_64.rpm
           is_expected.to contain_archive("/usr/local/src/aerospike-server-community-#{version}-#{expected_tag}.#{ext}")\
             .with_ensure('present')\
             .with_source("https://github.com/aerospike/aerospike-server/releases/download/#{version}/aerospike-server-community-#{version}-1.#{expected_tag}.#{os_facts[:os]['architecture']}.#{ext}")\
@@ -238,7 +230,6 @@ describe 'aerospike' do
       it { is_expected.to contain_class('aerospike::install').that_comes_before('Class[aerospike::config]') }
       it { is_expected.to contain_class('aerospike::config') }
       it { is_expected.to contain_class('aerospike::service').that_subscribes_to('Class[aerospike::config]') }
-
 
       case os_facts[:os]['family']
       when 'Debian'
