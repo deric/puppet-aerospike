@@ -57,7 +57,7 @@ class aerospike::amc {
 
   # For now only the packages that are not tarballs are installed.
   if $amc_pkg_provider != undef {
-    ensure_packages("aerospike-amc-${aerospike::edition}", {
+    ensure_resource('package', "aerospike-amc-${aerospike::edition}", {
         ensure   => latest,
         provider => $amc_pkg_provider,
         source   => $amc_dest,

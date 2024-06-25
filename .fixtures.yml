@@ -1,6 +1,8 @@
 fixtures:
   forge_modules:
-     stdlib: "puppetlabs/stdlib"
-     archive: "puppet/archive"
-  symlinks:
-    aerospike: "#{source_dir}"
+     stdlib:
+       repo: "puppetlabs/stdlib"
+       # ref: 4.13.0
+     archive:
+       repo: "puppet/archive"
+       # ref: 7.0.0

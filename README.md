@@ -10,14 +10,6 @@
 This module installs the [Aerospike](http://www.aerospike.com) NoSQL database engine and configures it.
 It can optionally install the Aerospike Management Console (aka. amc) and manage the corresponding service.
 
-It has been tested and used in production with:
-
- * Puppet 5.5 on Ubuntu 18.04 (bionic) with aerospike 4.4.0.4 community
-   and enterprise versions with and without the installation of the amc 4.0.19.
-   The master branch of puppet-archive was used including the PR 117 and 121.
-
-The spec tests pass against puppet >= 3.5 including the strict variables and future parser.
-
 ## Module Description
 
 What is this module capable of doing?

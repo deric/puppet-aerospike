@@ -7,9 +7,23 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [Unreleased]
 
 
-## [1.6.0] - 2022-04-07
+## [2.0.0] - 2022-06-25
+
+- Puppet 8 support
+- `puppetlabs/stdlib` 9 compatible
+- **BC** Fix proper module requirements
+- `puppetlabs/stdlib` >= 4.13 needed because of `Stdlib::AbsolutePath` type
+- `puppet/archive` >= 7.0.0 is required
+
 ### Added
-- Support installation from deb|rpm package from [Github release page](https://github.com/aerospike/aerospike-server/releases)
+- Support installation from deb|rpm package (#2) from [Github release page](https://github.com/aerospike/aerospike-server/releases)
+
+- [Full changes to previous release](https://github.com/deric/puppet-aerospike/compare/v1.6.0...v2.0.0)
+
+## [1.6.0] - 2022-04-07
+
+### Added
+- Allow upgrading packages (#1)
 
 ### Changed
 - Use hierarchical facts
