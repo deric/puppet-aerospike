@@ -58,6 +58,7 @@ describe 'aerospike' do
       let(:params) do
         {
           version: version,
+          remove_archive: false,
         }
       end
 
@@ -248,7 +249,7 @@ describe 'aerospike' do
             .with_username('dummy_user')\
             .with_password('dummy_password')\
             .with_source("https://github.com/aerospike/aerospike-server/releases/download/#{version}/aerospike-server-enterprise_#{version}-1#{expected_tag}_#{os_facts[:os]['architecture']}.#{ext}")\
-            .with_cleanup(false)
+            .with_cleanup(true)
         end
       when 'RedHat'
         ext = 'rpm'
@@ -258,7 +259,7 @@ describe 'aerospike' do
             .with_username('dummy_user')\
             .with_password('dummy_password')\
             .with_source("https://github.com/aerospike/aerospike-server/releases/download/#{version}/aerospike-server-enterprise-#{version}-1.#{expected_tag}.#{os_facts[:os]['architecture']}.#{ext}")\
-            .with_cleanup(false)
+            .with_cleanup(true)
         end
       end
 
@@ -656,7 +657,13 @@ describe 'aerospike' do
   end
 
   describe 'allow modifying asinstall parameters' do
-    let(:params) { { asinstall_params: '--force-confnew -i' } }
+    let(:params) do
+      {
+        version: '7.1.0.2',
+        asinstall_params: '--force-confnew -i',
+        download_url: 'https://github.com/aerospike/aerospike-server/archive/refs/tags/7.1.0.2.tar.gz',
+      }
+    end
     let(:facts) do
       {
         osfamily: 'Debian',
@@ -669,7 +676,7 @@ describe 'aerospike' do
       }
     end
 
-    let(:target_dir) { '/usr/local/src/aerospike-server-community-5.7.0.11-debian10' }
+    let(:target_dir) { '/usr/local/src/aerospike-server-community-7.1.0.2-debian10' }
 
     it { is_expected.to compile.with_all_deps }
     it { is_expected.to contain_class('aerospike::install').that_comes_before('Class[aerospike::config]') }

@@ -18,15 +18,15 @@ class aerospike::install {
 
   $_server = "https://github.com/aerospike/aerospike-server/releases/download/${aerospike::version}"
   $_ext = $facts['os']['family'] ? {
-      'Debian' => 'deb',
-      'RedHat' => 'rpm',
-      default  => 'tgz',
-    }
+    'Debian' => 'deb',
+    'RedHat' => 'rpm',
+    default  => 'tgz',
+  }
 
   $_suffix = $facts['os']['family'] ? {
-      'Debian' => '-1',
-      'RedHat' => '-1.',
-      default  => '',
+    'Debian' => '-1',
+    'RedHat' => '-1.',
+    default  => '',
   }
 
   $_arch = versioncmp($aerospike::version, '6.2.0.0') > 0 ? {
@@ -38,15 +38,12 @@ class aerospike::install {
     false => '',
   }
 
-  $src = $aerospike::download_url ? {
+  $src = $aerospike::download_url =~ String[1] ? {
     # https://github.com/aerospike/aerospike-server/releases/download/6.4.0.2/aerospike-server-community_6.4.0.2-1debian12_amd64.deb
-    undef   => versioncmp($aerospike::version, '6.4.0.0') > 0 ? {
-      true  => $facts['os']['family'] ? {
-        # debian releases contain underscore
-        'Debian' => "${_server}/aerospike-server-${aerospike::edition}_${aerospike::version}${_suffix}${aerospike::target_os_tag}${_arch}.${_ext}",
-        default => "${_server}/aerospike-server-${aerospike::edition}-${aerospike::version}${_suffix}${aerospike::target_os_tag}${_arch}.${_ext}",
-      },
-      false => "${_server}/aerospike-server-${aerospike::edition}-${aerospike::version}${_suffix}${aerospike::target_os_tag}${_arch}.${_ext}",
+    false  => $facts['os']['family'] ? {
+      # debian releases contain underscore
+      'Debian' => "${_server}/aerospike-server-${aerospike::edition}_${aerospike::version}${_suffix}${aerospike::target_os_tag}${_arch}.${_ext}",
+      default => "${_server}/aerospike-server-${aerospike::edition}-${aerospike::version}${_suffix}${aerospike::target_os_tag}${_arch}.${_ext}",
     },
     default => $aerospike::download_url,
   }
