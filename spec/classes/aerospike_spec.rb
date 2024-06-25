@@ -25,6 +25,12 @@ describe 'aerospike' do
       # Tests related to the aerospike::install class
       it { is_expected.to contain_class('archive') }
       it { is_expected.to contain_package('aerospike-server-community') }
+      case os_facts[:os]['family']
+      when 'Debian'
+        ext = 'deb'
+      when 'RedHat'
+        ext = 'rpm'
+      end
       it { is_expected.to contain_archive("/usr/local/src/aerospike-server-community-5.7.0.11-#{expected_tag}.#{ext}") }
       it { is_expected.to contain_user('root') }
       it { is_expected.to contain_group('root') }
